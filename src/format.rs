@@ -1,6 +1,7 @@
 //! Core methodology for formatting a file
 
-use crate::args::{Args, TabChar};
+use crate::args::{Args, TabChar, WrapStrategy};
+use crate::comments::find_comment_index;
 use crate::ignore::{get_ignore, Ignore};
 use crate::indent::{apply_indent, calculate_indent, Indent};
 use crate::logging::{record_file_log, Log};
@@ -14,6 +15,7 @@ use crate::write::process_output;
 use crate::LINE_END;
 use log::Level::{Info, Warn};
 use std::iter::zip;
+use std::iter::Peekable;
 use std::path::{Path, PathBuf};
 
 /// Central function to format a file
@@ -32,7 +34,7 @@ pub fn format_file(
 
     // Clean the source file and zip its lines with line numbers
     let old_text = clean_text(old_text, args);
-    let mut old_lines = zip(1.., old_text.lines());
+    let mut old_lines = zip(1.., old_text.lines()).peekable();
 
     // Initialise
     let mut state = State::new();
@@ -56,7 +58,7 @@ pub fn format_file(
     loop {
         if let Some((linum_old, mut line)) = queue.pop() {
             // Read the patterns present on this line.
-            let pattern = Pattern::new(&line);
+            let mut pattern = Pattern::new(&line);
 
             // Temporary state for working on this line.
             let mut temp_state = state.clone();
@@ -74,6 +76,13 @@ pub fn format_file(
                 &verbatims_begin,
                 &verbatims_end,
             ) {
+                if args.wrap
+                    && args.wrap_strategy == WrapStrategy::Balanced
+                    && try_extend_orphan_line(&mut line, &mut old_lines)
+                {
+                    pattern = Pattern::new(&line);
+                }
+
                 // Check if the line should be split because of a pattern
                 // that should begin on a new line.
                 if subs::needs_split(&line, &pattern) {
@@ -227,6 +236,100 @@ fn clean_text(text: &str, args: &Args) -> String {
     text = subs::remove_trailing_spaces(&text);
 
     text
+}
+
+fn leading_whitespace(line: &str) -> &str {
+    line.find(|c: char| !c.is_whitespace())
+        .map_or(line, |i| &line[..i])
+}
+
+fn is_plain_reflow_line(line: &str) -> bool {
+    let trimmed = line.trim();
+    if trimmed.is_empty()
+        || trimmed.starts_with('\\')
+        || trimmed.starts_with('&')
+        || trimmed.ends_with(r"\\")
+        || trimmed.contains(r"\\")
+    {
+        return false;
+    }
+
+    let pattern = Pattern::new(line);
+    !pattern.contains_splitting
+        && !pattern.contains_verb
+        && find_comment_index(line, &pattern).is_none()
+}
+
+fn is_orphan_reflow_line(line: &str) -> bool {
+    const ORPHAN_LINE_MAX_CHARS: usize = 24;
+
+    let trimmed = line.trim();
+    if trimmed.split_whitespace().count() != 1
+        || trimmed.chars().count() > ORPHAN_LINE_MAX_CHARS
+    {
+        return false;
+    }
+
+    if !trimmed
+        .chars()
+        .all(|c| c.is_alphabetic() || c == '-' || c == '\'')
+        || !trimmed.chars().any(char::is_lowercase)
+    {
+        return false;
+    }
+
+    !matches!(
+        trimmed.chars().last(),
+        Some('.' | ':' | ';' | '!' | '?' | ')' | ']' | '}')
+    )
+}
+
+fn line_ends_sentence(line: &str) -> bool {
+    matches!(
+        line.trim_end().chars().last(),
+        Some('.' | ':' | ';' | '!' | '?')
+    )
+}
+
+fn line_has_reflow_barrier(line: &str) -> bool {
+    line.contains("$$") || line.contains(r"\[") || line.contains(r"\]")
+}
+
+fn try_extend_orphan_line<'a, I>(
+    line: &mut String,
+    old_lines: &mut Peekable<I>,
+) -> bool
+where
+    I: Iterator<Item = (usize, &'a str)>,
+{
+    if !is_plain_reflow_line(line)
+        || !is_orphan_reflow_line(line)
+        || line_has_reflow_barrier(line)
+    {
+        return false;
+    }
+
+    let indent = leading_whitespace(line).to_string();
+    let mut extended = false;
+    while let Some((_, next_line)) = old_lines.peek().copied() {
+        if leading_whitespace(next_line) != indent
+            || !is_plain_reflow_line(next_line)
+            || line_has_reflow_barrier(next_line)
+        {
+            break;
+        }
+
+        let (_, next_line) = old_lines.next().expect("Peeked line exists.");
+        line.push(' ');
+        line.push_str(next_line.trim());
+        extended = true;
+
+        if line_ends_sentence(next_line) {
+            break;
+        }
+    }
+
+    extended
 }
 
 /// Information on the current state during formatting

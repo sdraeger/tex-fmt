@@ -243,8 +243,7 @@
 
   We begin in the regression setting by studying the Mondrian random forest, a
   variant in which the partitions are drawn from a Mondrian process. We present
-  a
-  comprehensive analysis of the statistical properties of Mondrian random
+  a comprehensive analysis of the statistical properties of Mondrian random
   forests, including a central limit theorem for the estimated regression
   function and a characterization of the bias. We show how to conduct feasible
   and valid nonparametric inference by constructing confidence intervals, and
@@ -256,22 +255,19 @@
   estimation, including a novel lower bound for the dyadic uniform convergence
   rate, and develop methodology for uniform inference via confidence bands and
   counterfactual analysis. Our methods are based on strong approximations and
-  are
-  designed to be adaptive to potential dyadic degeneracy. We give empirical
+  are designed to be adaptive to potential dyadic degeneracy. We give empirical
   results with simulated and real-world economic trade data.
 
   Finally, we develop some new probabilistic results with applications to
   nonparametric statistics. Coupling has become a popular approach for
   distributional analysis in recent years, and Yurinskii's method stands out for
   its wide applicability and explicit formulation. We present a generalization
-  of
-  Yurinskii's coupling, treating approximate martingale data under weaker
+  of Yurinskii's coupling, treating approximate martingale data under weaker
   conditions than previously imposed. We allow for Gaussian mixture coupling
   distributions, and a third-order method permits faster rates in certain
   situations. We showcase our results with applications to factor models and
-  martingale empirical processes, as well as
-  nonparametric partitioning-based and
-  local polynomial regression procedures.
+  martingale empirical processes, as well as nonparametric partitioning-based
+  and local polynomial regression procedures.
 }
 \acknowledgments{
 
@@ -605,17 +601,15 @@ Yet another variant of random forests, Mondrian random forests
 the statistics and machine learning communities in recent years
 \citep{ma2020isolation, mourtada2020minimax, scillitoe2021uncertainty,
 mourtada2021amf, vicuna2021reducing, gao2022towards, oreilly2022stochastic}.
-Like
-other purely random forest variants, Mondrian random forests offer a simplified
-modification of Breiman's original proposal in which the partition is generated
-independently of the data and according to a canonical stochastic process known
-as the Mondrian process \citep{roy2008mondrian}. The Mondrian process takes a
-single parameter $\lambda > 0$ known as the ``lifetime'' and enjoys various
-mathematical properties. These probabilistic
-features allow Mondrian random forests to be
-fitted in an online manner as well as being subject to a rigorous statistical
-analysis, while also retaining some of the appealing features of other
-more traditional random forest methods.
+Like other purely random forest variants, Mondrian random forests offer a
+simplified modification of Breiman's original proposal in which the partition is
+generated independently of the data and according to a canonical stochastic
+process known as the Mondrian process \citep{roy2008mondrian}. The Mondrian
+process takes a single parameter $\lambda > 0$ known as the ``lifetime'' and
+enjoys various mathematical properties. These probabilistic features allow
+Mondrian random forests to be fitted in an online manner as well as being
+subject to a rigorous statistical analysis, while also retaining some of the
+appealing features of other more traditional random forest methods.
 
 This chapter studies the statistical properties of Mondrian random forests. We
 focus on this purely random forest variant not only because of its importance
@@ -641,11 +635,10 @@ $\beta$-H{\"o}lder continuous for some $\beta \in (0, 1]$. The authors also
 showed that, when appropriately tuned, large Mondrian random forests can be
 similarly minimax-optimal for $\beta \in (0, 2]$, while the constituent trees
 cannot. See also \citet{oreilly2022stochastic} for analogous results for more
-general
-Mondrian tree and forest constructions. These results formally demonstrate the
-value of ensembling with random forests from a point estimation perspective. No
-results are currently available in the literature for statistical inference
-using Mondrian random forests.
+general Mondrian tree and forest constructions. These results formally
+demonstrate the value of ensembling with random forests from a point estimation
+perspective. No results are currently available in the literature for
+statistical inference using Mondrian random forests.
 
 This chapter contributes to the literature on the foundational statistical
 properties of Mondrian random forest regression estimation with two main
@@ -700,14 +693,12 @@ of trees. We give our notation for the following sections in this chapter.
 Section~\ref{sec:mondrian_inference} presents our first set of main results,
 beginning with a central limit theorem for the centered Mondrian random forest
 estimator (Theorem~\ref{thm:mondrian_clt}), in which we characterize the
-limiting
-variance. Theorem~\ref{thm:mondrian_bias} complements this result by precisely
-calculating the limiting bias of the estimator, with the aim of subsequently
-applying a debiasing procedure. To enable valid feasible statistical inference,
-we provide a consistent variance estimator in
+limiting variance. Theorem~\ref{thm:mondrian_bias} complements this result by
+precisely calculating the limiting bias of the estimator, with the aim of
+subsequently applying a debiasing procedure. To enable valid feasible
+statistical inference, we provide a consistent variance estimator in
 Theorem~\ref{thm:mondrian_variance_estimation} and briefly discuss implications
-for
-lifetime parameter selection.
+for lifetime parameter selection.
 
 In Section~\ref{sec:mondrian_overview_proofs} we provide a brief overview of
 the proofs
@@ -727,13 +718,12 @@ we verify that a central limit theorem continues to hold for the debiased
 Mondrian random forest. We again state the limiting variance, discuss the
 implications for the lifetime parameter, and provide a consistent variance
 estimator (Theorem~\ref{thm:mondrian_variance_estimation_debiased}) for
-constructing
-confidence intervals (Theorem~\ref{thm:mondrian_confidence_debiased}). As a
-final
-corollary of the improved bias properties, we demonstrate in
-Theorem~\ref{thm:mondrian_minimax} that the debiased Mondrian random forest
-estimator is minimax-optimal in pointwise mean squared error for all
-$\beta > 0$, provided that $\beta$ is known a priori.
+constructing confidence intervals
+(Theorem~\ref{thm:mondrian_confidence_debiased}). As a final corollary of the
+improved bias properties, we demonstrate in Theorem~\ref{thm:mondrian_minimax}
+that the debiased Mondrian random forest estimator is minimax-optimal in
+pointwise mean squared error for all $\beta > 0$, provided that $\beta$ is known
+a priori.
 
 Section~\ref{sec:mondrian_parameter_selection} discusses tuning parameter
 selection,
@@ -898,13 +888,12 @@ We define the basic Mondrian random forest estimator
 \eqref{eq:mondrian_estimator} as in \citet{lakshminarayanan2014mondrian} and
 \citet{mourtada2020minimax}, and will later extend it to a debiased version in
 Section~\ref{sec:mondrian_debiased}. For a lifetime parameter $\lambda > 0$ and
-forest
-size $B \geq 1$, let $\bT = (T_1, \ldots, T_B)$ be a Mondrian forest where
-$T_b \sim \cM\big([0,1]^d, \lambda\big)$ are i.i.d.\ Mondrian trees
-which are independent of the data. For $x \in [0,1]^d$, write
-$N_b(x) = \sum_{i=1}^{n} \I \left\{ X_i \in T_b(x) \right\}$ for the number of
-samples in $T_b(x)$, with $\I$ denoting an indicator function. Then the
-Mondrian random forest estimator of $\mu(x)$ is
+forest size $B \geq 1$, let $\bT = (T_1, \ldots, T_B)$ be a Mondrian forest
+where $T_b \sim \cM\big([0,1]^d, \lambda\big)$ are i.i.d.\ Mondrian trees which
+are independent of the data. For $x \in [0,1]^d$, write $N_b(x) = \sum_{i=1}^{n}
+\I \left\{ X_i \in T_b(x) \right\}$ for the number of samples in $T_b(x)$, with
+$\I$ denoting an indicator function. Then the Mondrian random forest estimator
+of $\mu(x)$ is
 %
 \begin{equation}
   \label{eq:mondrian_estimator}
@@ -931,13 +920,12 @@ Assumption~\ref{ass:mondrian_estimator}.
 \end{assumption}
 
 Assumption~\ref{ass:mondrian_estimator} implies that the size of the forest $B$
-grows
-with $n$. For the purpose of mitigating the computational burden, we suggest
-the sub-linear polynomial growth $B \asymp n^{\xi}$, satisfying the conditions
-imposed in our main results. Large forests usually do not present computational
-challenges in practice as the ensemble estimator is easily parallelizable over
-the trees. We emphasize places where this ``large forest'' condition is
-important to our theory as they arise throughout the chapter.
+grows with $n$. For the purpose of mitigating the computational burden, we
+suggest the sub-linear polynomial growth $B \asymp n^{\xi}$, satisfying the
+conditions imposed in our main results. Large forests usually do not present
+computational challenges in practice as the ensemble estimator is easily
+parallelizable over the trees. We emphasize places where this ``large forest''
+condition is important to our theory as they arise throughout the chapter.
 
 \section{Inference with Mondrian random forests}%
 \label{sec:mondrian_inference}
@@ -966,23 +954,21 @@ forest estimator:
 Our approach to inference is summarized as follows. Firstly, we provide a
 central limit theorem (weak convergence to a Gaussian) for the first
 ``variance'' term in \eqref{eq:mondrian_bias_variance}. Secondly, we precisely
-compute
-the probability limit of the second ``bias'' term. By ensuring that the
-standard deviation dominates the bias, a corresponding
-central limit theorem holds for the Mondrian random forest. With an appropriate
-estimator for the limiting variance, we establish procedures for valid and
-feasible statistical inference on the unknown regression function $\mu(x)$.
+compute the probability limit of the second ``bias'' term. By ensuring that the
+standard deviation dominates the bias, a corresponding central limit theorem
+holds for the Mondrian random forest. With an appropriate estimator for the
+limiting variance, we establish procedures for valid and feasible statistical
+inference on the unknown regression function $\mu(x)$.
 
 We begin with the aforementioned central limit theorem, which forms the core of
 our methodology for performing statistical inference. Before stating our main
 result, we highlight some of the challenges involved. At first glance, the
 summands in the first term in \eqref{eq:mondrian_bias_variance} seem to be
-independent
-over $1 \leq i \leq n$, conditional on the forest $\bT$, depending only on
-$X_i$ and $\varepsilon_i$. However, the $N_b(x)$ appearing in the denominator
-depends on all $X_i$ simultaneously, violating this independence assumption and
-rendering classical central limit theorems inapplicable. A natural preliminary
-attempt to resolve this issue is to observe that
+independent over $1 \leq i \leq n$, conditional on the forest $\bT$, depending
+only on $X_i$ and $\varepsilon_i$. However, the $N_b(x)$ appearing in the
+denominator depends on all $X_i$ simultaneously, violating this independence
+assumption and rendering classical central limit theorems inapplicable. A
+natural preliminary attempt to resolve this issue is to observe that
 %
 \begin{equation*}
   N_b(x)= \sum_{i=1}^{n} \I\big\{X_i \in T_b(x)\big\}
@@ -1133,17 +1119,15 @@ In Theorem~\ref{thm:mondrian_bias} we give some explicit examples of
 calculating the
 limiting bias if $\beta > 2$ or when $X_i$ are uniformly distributed. The
 general form of $B_r(x)$ is provided in Section~\ref{sec:mondrian_app_proofs}
-but
-is somewhat unwieldy except in specific situations. Nonetheless the most
+but is somewhat unwieldy except in specific situations. Nonetheless the most
 important properties are that $B_r(x)$ are non-random and do not depend on the
 lifetime $\lambda$, crucial facts for our debiasing procedure given in
 Section~\ref{sec:mondrian_debiased}. If the forest size $B$ does not diverge to
-infinity
-then we suffer the first-order bias term $\frac{1}{\lambda \sqrt B}$. This
-phenomenon was explained by \citet{mourtada2020minimax}, who noted that it
-allows single Mondrian trees to achieve minimax optimality only when
-$\beta \in (0, 1]$. Large forests remove this first-order bias
-and are optimal for all $\beta \in (0, 2]$.
+infinity then we suffer the first-order bias term $\frac{1}{\lambda \sqrt B}$.
+This phenomenon was explained by \citet{mourtada2020minimax}, who noted that it
+allows single Mondrian trees to achieve minimax optimality only when $\beta \in
+(0, 1]$. Large forests remove this first-order bias and are optimal for all
+$\beta \in (0, 2]$.
 
 Using Theorem~\ref{thm:mondrian_clt} and Theorem~\ref{thm:mondrian_bias}
 together,
@@ -1172,9 +1156,9 @@ which is the minimax-optimal rate of convergence \citep{stone1982optimal}
 for $\beta$-H{\"o}lder functions with $\beta \in (0,2]$
 as shown by \citet[Theorem~2]{mourtada2020minimax}.
 In Section~\ref{sec:mondrian_debiased} we will show how the Mondrian random
-forest
-estimator can be debiased, giving both weaker lifetime conditions for inference
-and also improved rates of convergence, under additional smoothness assumptions.
+forest estimator can be debiased, giving both weaker lifetime conditions for
+inference and also improved rates of convergence, under additional smoothness
+assumptions.
 
 \subsection*{Variance estimation}
 
@@ -1202,8 +1186,7 @@ estimator is consistent, and establish its rate of convergence.
 \begin{theorem}[Variance estimation]%
   \label{thm:mondrian_variance_estimation}
   Grant Assumptions~\ref{ass:mondrian_data} and \ref{ass:mondrian_estimator},
-  and
-  suppose $\E[Y_i^4 \mid X_i ]$ is bounded almost surely. Then
+  and suppose $\E[Y_i^4 \mid X_i ]$ is bounded almost surely. Then
   %
   \begin{align*}
     \hat\Sigma(x)
@@ -1219,9 +1202,8 @@ estimator is consistent, and establish its rate of convergence.
 \subsection{Confidence intervals}
 
 Theorem~\ref{thm:mondrian_confidence} shows how to construct valid confidence
-intervals
-for the regression function $\mu(x)$ under the lifetime and forest size
-assumptions previously discussed. For details on feasible and practical
+intervals for the regression function $\mu(x)$ under the lifetime and forest
+size assumptions previously discussed. For details on feasible and practical
 selection of the lifetime parameter $\lambda$, see
 Section~\ref{sec:mondrian_parameter_selection}.
 %
@@ -1258,10 +1240,9 @@ Section~\ref{sec:mondrian_parameter_selection}.
 
 When coupled with an appropriate lifetime selection method,
 Theorem~\ref{thm:mondrian_confidence} gives a fully feasible procedure for
-uncertainty
-quantification in Mondrian random forests. Our procedure requires no adjustment
-of the original Mondrian random forest estimator beyond ensuring that the bias
-is negligible, and in particular does not rely on sample splitting. The
+uncertainty quantification in Mondrian random forests. Our procedure requires no
+adjustment of the original Mondrian random forest estimator beyond ensuring that
+the bias is negligible, and in particular does not rely on sample splitting. The
 construction of confidence intervals is just one corollary of the weak
 convergence result given in Theorem~\ref{thm:mondrian_clt}, and follows
 immediately from Slutsky's theorem
@@ -1284,8 +1265,7 @@ This section provides some insight into the general approach we use to
 establish the main results in the preceding sections. We focus on the technical
 innovations forming the core of our arguments, and refer the reader to
 Section~\ref{sec:mondrian_app_proofs} for detailed proofs, including those for
-the
-debiased estimator discussed in the upcoming
+the debiased estimator discussed in the upcoming
 Section~\ref{sec:mondrian_debiased}.
 
 \subsection*{Preliminary results}
@@ -1761,8 +1741,7 @@ in Section~\ref{sec:mondrian_inference}, define the estimator
 \begin{theorem}[Variance estimation]%
   \label{thm:mondrian_variance_estimation_debiased}
   Grant Assumptions~\ref{ass:mondrian_data} and \ref{ass:mondrian_estimator},
-  and
-  suppose $\E[Y_i^4 \mid X_i ]$ is bounded almost surely. Then
+  and suppose $\E[Y_i^4 \mid X_i ]$ is bounded almost surely. Then
   %
   \begin{align*}
     \hat\Sigma_\rd(x)
@@ -1835,14 +1814,12 @@ and forest size $B$.
 
 One important benefit of our debiasing technique is made clear in
 Theorem~\ref{thm:mondrian_confidence_debiased}: the restrictions imposed on the
-lifetime
-parameter $\lambda$ are substantially relaxed, especially in smooth classes
-with large $\beta$. As well as the high-level of benefit of relaxed conditions,
-this is also useful for practical selection of appropriate lifetimes for
-estimation and inference respectively; see
+lifetime parameter $\lambda$ are substantially relaxed, especially in smooth
+classes with large $\beta$. As well as the high-level of benefit of relaxed
+conditions, this is also useful for practical selection of appropriate lifetimes
+for estimation and inference respectively; see
 Section~\ref{sec:mondrian_parameter_selection} for more details. Nonetheless,
-such
-improvements do not come without concession. The limiting variance
+such improvements do not come without concession. The limiting variance
 $\Sigma_\rd(x)$ of the debiased estimator is larger than that of the unbiased
 version (the extent of this increase depends on the choice of the debiasing
 parameters $a_r$), leading to wider confidence intervals and larger estimation
@@ -1886,13 +1863,12 @@ The sequence of lifetime parameters $\lambda$ required in
 Theorem~\ref{thm:mondrian_minimax} are chosen to balance the bias and standard
 deviation bounds implied by Theorem~\ref{thm:mondrian_bias_debiased} and
 Theorem~\ref{thm:mondrian_clt_debiased} respectively, in order to minimize the
-pointwise
-mean squared error. While selecting an optimal debiasing order $J$ needs only
-knowledge of an upper bound on the smoothness $\beta$, choosing an optimal
-sequence of $\lambda$ values does assume that $\beta$ is known a priori. The
-problem of adapting to $\beta$ from data is challenging and beyond the scope of
-this chapter; we provide some practical advice for tuning parameter
-selection in Section~\ref{sec:mondrian_parameter_selection}.
+pointwise mean squared error. While selecting an optimal debiasing order $J$
+needs only knowledge of an upper bound on the smoothness $\beta$, choosing an
+optimal sequence of $\lambda$ values does assume that $\beta$ is known a priori.
+The problem of adapting to $\beta$ from data is challenging and beyond the scope
+of this chapter; we provide some practical advice for tuning parameter selection
+in Section~\ref{sec:mondrian_parameter_selection}.
 
 Theorem~\ref{thm:mondrian_minimax} complements the minimaxity results proven by
 \citet{mourtada2020minimax} for Mondrian trees (with $\beta \leq 1$) and for
@@ -2371,13 +2347,11 @@ for the results.
 \end{figure}
 
 In Figure~\ref{fig:mondrian_weather_gcv} we show the mean squared error and GCV
-scores
-computed using \eqref{eq:mondrian_gcv} with $B=400$ trees
-for several candidate lifetime parameters $\lambda$. As
-expected, the mean squared error decreases monotonically
-as $\lambda$ increases and the model
-overfits, but the GCV score is minimized at a value which appropriately
-balances the bias and variance; we take $\lambda = 5$.
+scores computed using \eqref{eq:mondrian_gcv} with $B=400$ trees for several
+candidate lifetime parameters $\lambda$. As expected, the mean squared error
+decreases monotonically as $\lambda$ increases and the model overfits, but the
+GCV score is minimized at a value which appropriately balances the bias and
+variance; we take $\lambda = 5$.
 We then fit a debiased Mondrian forest
 with bias correction order $J = 1$ as described in
 Section~\ref{sec:mondrian_debiased}, using $B=20$ trees at each debiasing level
@@ -2385,8 +2359,7 @@ $r \in \{0, 1\}$ for a total of $40$ trees.
 We continue to use the same lifetime parameter
 $\lambda = 5$ selected through GCV without debiasing, following the approach
 recommended in Section~\ref{sec:mondrian_lifetime_selection} to ensure valid
-inference
-through negligible bias.
+inference through negligible bias.
 The resulting debiased Mondrian random forest estimate is noticeably
 less smooth than the version without bias correction.
 This is expected due to both the inflated variance resulting from the debiasing
@@ -2431,22 +2404,20 @@ using GCV on the original estimator without debiasing.
 \end{table}
 
 Table~\ref{tab:mondrian_weather_ci} presents numerical results for estimation
-and
-inference at the three specified design points. We first give the outcomes
+and inference at the three specified design points. We first give the outcomes
 without debiasing, using a Mondrian random forest with $B = 400$ trees and
 $\lambda = 5$ selected by GCV. We then show the results with a first-order
-($J=1$) debiased Mondrian random forest using $B = 200$ (again a total of
-$400$ trees) and the same value of $\lambda = 5$. The predicted chance of rain
+($J=1$) debiased Mondrian random forest using $B = 200$ (again a total of $400$
+trees) and the same value of $\lambda = 5$. The predicted chance of rain
 $\hat\mu(x)$ is found to vary substantially across different covariate values,
 and the resulting confidence intervals (CI) are generally narrow due to the
 large sample size and moderate lifetime parameter. The forest with debiasing
 exhibits more extreme predictions away from $50\%$ and wider confidence
 intervals in general, in line with the illustration in
 Figure~\ref{fig:mondrian_weather_gcv}. Interestingly, the confidence intervals
-for the
-non-debiased and debiased estimators do not intersect, indicating that the
-original estimator is severely biased, and providing further justification for
-our modified debiased random forest estimator.
+for the non-debiased and debiased estimators do not intersect, indicating that
+the original estimator is severely biased, and providing further justification
+for our modified debiased random forest estimator.
 
 \section{Conclusion}%
 \label{sec:mondrian_conclusion}
@@ -2563,10 +2534,10 @@ collection $\cW$ of design points. More generally, as we discuss below, the
 estimand $f_W(w)$ is useful in different applications because it forms the
 basis for counterfactual distributional analysis
 (Section~\ref{sec:kernel_counterfactual}) and other nonparametric and
-semiparametric
-methods (Section~\ref{sec:kernel_future}). While we assume throughout
-that the network is complete, our approach generalizes in a straightforward way
-to networks with missing edges, as in Section~\ref{sec:kernel_trade_data}.
+semiparametric methods (Section~\ref{sec:kernel_future}). While we assume
+throughout that the network is complete, our approach generalizes in a
+straightforward way to networks with missing edges, as in
+Section~\ref{sec:kernel_trade_data}.
 This can be
 seen by setting $W_{i j} = -\infty$ whenever the edge $\{i, j\}$ is not
 present, so that the law of $W_{i j}$ is a mixture between a continuous
@@ -2595,8 +2566,7 @@ applications:
 Our main results also lay the foundation for studying the uniform
 distributional properties of other nonparametric and semiparametric tests and
 estimators based on dyadic data (Section~\ref{sec:kernel_future}). Importantly,
-our
-inference results cannot be deduced from the existing U-statistic, empirical
+our inference results cannot be deduced from the existing U-statistic, empirical
 process and U-process theory available in the literature
 \citep{van1996weak,gine2021mathematical} because, as explained in detail below,
 $\hat{f}_W(w)$ is not a standard U-statistic, nor is
@@ -2632,15 +2602,14 @@ We give an example of a simple family of dyadic distributions
 exhibiting all three degeneracy types.
 
 Section~\ref{sec:kernel_point_estimation} studies minimax convergence rates for
-point
-estimation of $f_W$ uniformly over $\cW$ and gives precise conditions under
-which the estimator $\hat{f}_W$ is minimax-optimal. Firstly, in
+point estimation of $f_W$ uniformly over $\cW$ and gives precise conditions
+under which the estimator $\hat{f}_W$ is minimax-optimal. Firstly, in
 Theorem~\ref{thm:kernel_uniform_consistency} we establish the uniform rate of
-convergence of $\hat{f}_W$ for $f_W$. This result improves upon the recent
-paper of \citet{chiang2020empirical} by allowing for compactly supported dyadic
-data and generic kernel-like functions $k_h$ (including boundary-adaptive
-kernels), while also explicitly accounting for possible degeneracy of the
-H\'{a}jek projection term $L_n$ at some or possibly all points $w\in\cW$.
+convergence of $\hat{f}_W$ for $f_W$. This result improves upon the recent paper
+of \citet{chiang2020empirical} by allowing for compactly supported dyadic data
+and generic kernel-like functions $k_h$ (including boundary-adaptive kernels),
+while also explicitly accounting for possible degeneracy of the H\'{a}jek
+projection term $L_n$ at some or possibly all points $w\in\cW$.
 Secondly, in Theorem~\ref{thm:kernel_minimax} we derive the minimax uniform
 convergence rate for estimating $f_W$, again allowing for possible degeneracy,
 and verify that it is achieved by $\hat f_W$. This result appears to be new to
@@ -2757,11 +2726,10 @@ to show that these confidence bands are robust to potential unknown degenerate
 points in the underlying dyadic distribution.
 
 Section~\ref{sec:kernel_counterfactual} presents novel results for
-counterfactual
-dyadic density estimation and inference, offering an application of our general
-theory to a substantive problem in statistics and other data science
-disciplines. Counterfactual distributions are important for causal inference
-and policy evaluation
+counterfactual dyadic density estimation and inference, offering an application
+of our general theory to a substantive problem in statistics and other data
+science disciplines. Counterfactual distributions are important for causal
+inference and policy evaluation
 \citep{dinardo1996distribution,chernozhukov2013inference}, and in the context
 of network data, such analysis can be used to answer empirical questions such
 as ``what would the international trade distribution have been if
@@ -2786,8 +2754,7 @@ semiparametric dyadic regression. Section~\ref{sec:kernel_conclusion} concludes.
 Appendix~\ref{app:kernel} includes other technical and methodological results,
 proofs, and additional details omitted here to conserve space.
 Section~\ref{sec:kernel_app_technical} may be of independent interest,
-containing
-two generic strong approximation theorems for empirical processes, a
+containing two generic strong approximation theorems for empirical processes, a
 generalized Vorob'ev--Berkes--Philipp theorem, and a maximal inequality for
 i.n.i.d.\ random variables.
 
@@ -3090,10 +3057,10 @@ degeneracy.
 \end{lemma}
 
 Lemma~\ref{lem:kernel_uniform_concentration} captures the potential total
-degeneracy
-of $L_n$ by illustrating how if $\Du=0$ then $L_n=0$ everywhere on $\cW$ almost
-surely. The following lemma captures the potential partial degeneracy of $L_n$,
-where $\Du > \Dl = 0$. For $w,w' \in \cW$, define the covariance function
+degeneracy of $L_n$ by illustrating how if $\Du=0$ then $L_n=0$ everywhere on
+$\cW$ almost surely. The following lemma captures the potential partial
+degeneracy of $L_n$, where $\Du > \Dl = 0$. For $w,w' \in \cW$, define the
+covariance function
 %
 \begin{align*}
   \Sigma_n(w,w') =
@@ -3139,11 +3106,10 @@ only of the communities which $i$ and $j$ belong to and some idiosyncratic
 noise. Unlike the stochastic block model \citep{kolaczyk2009statistical}, our
 setup assumes that community membership has no impact on edge existence, as we
 work with fully connected networks; see Section~\ref{sec:kernel_trade_data} for
-a
-discussion of how to handle missing edges in practice. Also note that the
+a discussion of how to handle missing edges in practice. Also note that the
 parameter of interest in this chapter is the Lebesgue density of a continuous
-random variable $W_{i j}$ rather than the probability of network edge
-existence, which is the focus of the graphon estimation literature
+random variable $W_{i j}$ rather than the probability of network edge existence,
+which is the focus of the graphon estimation literature
 \citep{gao2021minimax}.
 
 In line with Assumption~\ref{ass:kernel_data}, $\bA_n$ and $\bV_n$ are i.i.d.\
@@ -3392,9 +3358,8 @@ distribution of the stochastic process $\hat{f}_W$. Alternatively, again only
 when $L_n$ is non-degenerate and leading, standard empirical process methods
 could also be used. However, even in the special case when $\hat{f}_W(w)$ is
 asymptotically Donsker, our result in Lemma~\ref{lem:kernel_strong_approx_Ln}
-improves
-upon the literature by providing a rate-optimal strong approximation for
-$\hat{f}_W$ as opposed to only a weak convergence result. See Theorem
+improves upon the literature by providing a rate-optimal strong approximation
+for $\hat{f}_W$ as opposed to only a weak convergence result. See Theorem
 \ref{thm:kernel_infeasible_ucb} and the subsequent discussion below.
 
 % however often non-donsker
@@ -3451,25 +3416,23 @@ the first in the literature for the process $E_n$, and hence for $\hat{f}_W$
 and its associated $t$-process in the context of dyadic data. The approximation
 rate is sufficiently fast to allow for optimal bandwidth choices; see Section
 \ref{sec:kernel_implementation} for more details. Strong approximation results
-for
-local empirical processes (e.g.\ \citealp{gine2010confidence}) are not
+for local empirical processes (e.g.\ \citealp{gine2010confidence}) are not
 applicable here because the summands in the non-negligible $E_n$ are not
 (conditionally) i.i.d. Likewise, neither standard empirical process and
-U-process theory \citep{van1996weak,gine2021mathematical} nor the recent
-results in \citet{davezies2021exchangeable} are applicable to the non-Donsker
-process $E_n$.
+U-process theory \citep{van1996weak,gine2021mathematical} nor the recent results
+in \citet{davezies2021exchangeable} are applicable to the non-Donsker process
+$E_n$.
 
 The previous lemmas showed that $L_n$ is $\sqrt{n}$-consistent while $E_n$ is
 $\sqrt{n^2h}$-consistent (pointwise in $w$), showcasing the importance of
 careful standardization (cf.\ Studentization in
 Section~\ref{sec:kernel_implementation}) for the purpose of rate adaptivity to
-the
-unknown degeneracy type. In other words, a challenge in conducting uniform
-inference is that the finite-dimensional distributions of the stochastic
-process $L_n+E_n$, and hence those of $\hat{f}_W$ and its associated
-$t$-process $T_n$, may converge at different rates at different points
-$w\in\cW$. The following theorem provides an (infeasible) inference procedure
-which is fully adaptive to such potential unknown degeneracy.
+the unknown degeneracy type. In other words, a challenge in conducting uniform
+inference is that the finite-dimensional distributions of the stochastic process
+$L_n+E_n$, and hence those of $\hat{f}_W$ and its associated $t$-process $T_n$,
+may converge at different rates at different points $w\in\cW$. The following
+theorem provides an (infeasible) inference procedure which is fully adaptive to
+such potential unknown degeneracy.
 
 \begin{theorem}[Strong approximation of $T_n$]
   \label{thm:kernel_strong_approx_Tn}
@@ -3516,14 +3479,13 @@ that $p\wedge\beta \geq 3.5$. This is achievable if a fourth-order
 
 In the presence of partial or total degeneracy ($\Dl =0$),
 Theorem~\ref{thm:kernel_strong_approx_Tn} provides a strong approximation for
-the
-$t$-process at the rate
-$\sqrt{h}\log n + n^{-1/4}h^{-3/8}(\log n)^{3/8} R_n + n^{-1/6}(\log n)^{2/3}
-+ n h^{1/2+p\wedge\beta}$. If, for example, $n h^{p\wedge\beta}\lesssim 1$,
-then our result can achieve a strong approximation rate of $n^{-1/7}$ up to
-$\log n $ terms. Theorem~\ref{thm:kernel_strong_approx_Tn} appears to be the
-first in the dyadic literature which is also robust to the presence of
-degenerate points in the underlying dyadic distribution.
+the $t$-process at the rate $\sqrt{h}\log n + n^{-1/4}h^{-3/8}(\log n)^{3/8} R_n
++ n^{-1/6}(\log n)^{2/3} + n h^{1/2+p\wedge\beta}$. If, for example, $n
+h^{p\wedge\beta}\lesssim 1$, then our result can achieve a strong approximation
+rate of $n^{-1/7}$ up to $\log n $ terms.
+Theorem~\ref{thm:kernel_strong_approx_Tn} appears to be the first in the dyadic
+literature which is also robust to the presence of degenerate points in the
+underlying dyadic distribution.
 
 \subsection{Application: confidence bands}
 
@@ -3531,15 +3493,13 @@ Theorem~\ref{thm:kernel_infeasible_ucb} constructs standardized confidence
 bands for
 $f_W$ which are infeasible as they depend on the unknown population variance
 $\Sigma_n$. In Section~\ref{sec:kernel_implementation} we will make this
-inference
-procedure feasible by proposing a valid estimator of the covariance function
-$\Sigma_n$ for Studentization, as well as developing bandwidth selection and
-robust bias correction methods. Before presenting our result on valid
-infeasible uniform confidence bands, we first impose in
+inference procedure feasible by proposing a valid estimator of the covariance
+function $\Sigma_n$ for Studentization, as well as developing bandwidth
+selection and robust bias correction methods. Before presenting our result on
+valid infeasible uniform confidence bands, we first impose in
 Assumption~\ref{ass:kernel_rates} some extra restrictions on the bandwidth
-sequence,
-which depend on the degeneracy type of the dyadic distribution, to ensure the
-coverage rate converges.
+sequence, which depend on the degeneracy type of the dyadic distribution, to
+ensure the coverage rate converges.
 
 \begin{assumption}[Rate restriction for uniform confidence bands]
   \label{ass:kernel_rates}
@@ -3618,8 +3578,7 @@ Importantly, regardless of the specific implementation details,
 Theorem~\ref{thm:kernel_infeasible_ucb} shows that any bandwidth sequence $h$
 satisfying both \ref{it:kernel_rate_non} and \ref{it:kernel_rate_degen}
 in Assumption~\ref{ass:kernel_rates} leads to valid uniform inference which is
-robust
-and adaptive to the (unknown) degeneracy type.
+robust and adaptive to the (unknown) degeneracy type.
 
 \section{Implementation}
 \label{sec:kernel_implementation}
@@ -3631,8 +3590,7 @@ guaranteed to be positive semi-definite. This allows for the construction of
 fully feasible confidence bands in
 Section~\ref{sec:kernel_feasible_confidence_bands}.
 In Section~\ref{sec:kernel_bandwidth_selection} we discuss bandwidth selection
-and
-formalize our procedure for robust bias correction inference.
+and formalize our procedure for robust bias correction inference.
 
 \subsection{Covariance function estimation}
 \label{sec:kernel_covariance_estimation}
@@ -3717,8 +3675,7 @@ Theorem~\ref{thm:kernel_strong_approx_Tn}.
 In practice we take $w, w' \in \cW_d$ where $\cW_d$ is a finite subset of
 $\cW$, typically taken to be an equally-spaced grid. This yields
 finite-dimensional covariance matrices, for which \eqref{eq:kernel_sdp} can be
-solved
-in polynomial time in $|\cW_d|$ using a general-purpose SDP solver
+solved in polynomial time in $|\cW_d|$ using a general-purpose SDP solver
 \citep[e.g.\ by interior point methods,][]{laurent2005semidefinite}.
 The number of points in $\cW_d$ should be taken as large as is computationally
 practical in order to generate confidence bands rather than merely simultaneous
@@ -3730,9 +3687,8 @@ networks.
 
 The bias-corrected variance estimator in
 \citet[Section~3.2]{matsushita2021jackknife} takes a similar form to our
-estimator
-$\hat\Sigma_n$ but in the parametric setting, and is therefore also not
-guaranteed to be positive semi-definite in finite samples. Our approach
+estimator $\hat\Sigma_n$ but in the parametric setting, and is therefore also
+not guaranteed to be positive semi-definite in finite samples. Our approach
 addresses this issue, ensuring a positive semi-definite estimator
 $\hat\Sigma_n^+$ is always available.
 
@@ -3801,8 +3757,7 @@ namely those imposed in Assumption \ref{ass:kernel_rates}. This follows from
 the rates
 of convergence obtained in Lemma~\ref{lem:kernel_sdp}, coupled with some careful
 technical work given in Section~\ref{sec:kernel_app_proofs} to handle the
-potential
-presence of degenerate points in $\Sigma_n$.
+potential presence of degenerate points in $\Sigma_n$.
 
 \subsection{Bandwidth selection and robust bias-corrected inference}
 \label{sec:kernel_bandwidth_selection}
@@ -3908,17 +3863,15 @@ kernel of order $p$, which leads to an AIMSE-optimal point estimator
 $\hat{f}_W$ in an $L^2(\nu)$ sense. Then use this bandwidth and a kernel of
 order $p' > p$ to construct the statistic $\hat T_n$ and the confidence band as
 detailed in Section~\ref{sec:kernel_feasible_confidence_bands}. Importantly,
-both
-$\hat{f}_W$ and $\hat{\Sigma}^+_n$ are recomputed with the new higher-order
+both $\hat{f}_W$ and $\hat{\Sigma}^+_n$ are recomputed with the new higher-order
 kernel. The change in centering is equivalent to a bias correction of the
 original AIMSE-optimal point estimator, while the change in scale captures the
 additional variability introduced by the bias correction itself. As shown
 formally in \citet{calonico2018effect, calonico2022coverage} for the case of
-kernel-based density
-estimation with i.i.d.\ data, this approach leads to higher-order refinements
-in the distributional approximation whenever additional smoothness is available
-($p'\leq\beta$). In the present dyadic setting, this procedure is valid so long
-as $n^{-2/3} (\log n)^{7/3} \ll n^{-\frac{2}{2p+1}}
+kernel-based density estimation with i.i.d.\ data, this approach leads to
+higher-order refinements in the distributional approximation whenever additional
+smoothness is available ($p'\leq\beta$). In the present dyadic setting, this
+procedure is valid so long as $n^{-2/3} (\log n)^{7/3} \ll n^{-\frac{2}{2p+1}}
 \ll (n^2 \log n)^{-\frac{1}{2p' + 1}}$,
 which is equivalent to $2 \leq p < p'$.
 For concreteness, we recommend taking $p = 2$ and $p' = 4$,
@@ -3981,20 +3934,18 @@ Gaussian vectors are resampled $B = 10\,000$ times.
 \end{figure}
 
 In Figure~\ref{fig:kernel_results} we plot a typical outcome for each of the
-three
-degeneracy types (total, partial, none), using the Epanechnikov kernel of order
-$p=2$, with sample size $n=100$ (so $N=4950$ pairs of nodes) and with $d=100$
-equally-spaced evaluation points. Each plot contains the true density function
-$f_W$, the dyadic kernel density estimate $\hat f_W$ and two different
+three degeneracy types (total, partial, none), using the Epanechnikov kernel of
+order $p=2$, with sample size $n=100$ (so $N=4950$ pairs of nodes) and with
+$d=100$ equally-spaced evaluation points. Each plot contains the true density
+function $f_W$, the dyadic kernel density estimate $\hat f_W$ and two different
 approximate $95\%$ confidence bands for $f_W$. The first is the uniform
 confidence band (UCB) constructed using one of our main results,
 Theorem~\ref{thm:kernel_ucb}. The second is a sequence of pointwise confidence
-intervals (PCI) constructed by finding a confidence interval for each
-evaluation point separately. We show only $10$ pointwise confidence intervals
-for clarity. In general, the PCIs are too narrow as they fail to provide
-simultaneous (uniform) coverage over the evaluation points. Note that under
-partial degeneracy the confidence band narrows near the degenerate point
-$w = 0$.
+intervals (PCI) constructed by finding a confidence interval for each evaluation
+point separately. We show only $10$ pointwise confidence intervals for clarity.
+In general, the PCIs are too narrow as they fail to provide simultaneous
+(uniform) coverage over the evaluation points. Note that under partial
+degeneracy the confidence band narrows near the degenerate point $w = 0$.
 
 \begin{table}[b!]
   \centering
@@ -4037,10 +3988,9 @@ $w = 0$.
 \end{table}
 
 Next, Table~\ref{tab:kernel_results} presents numerical results. For each
-degeneracy
-type (total, partial, none) and each kernel order ($p=2$, $p=4$), we run $2000$
-repeats with sample size $n=3000$ (giving $N=4\,498\,500$ pairs of nodes) and
-with $d=50$ equally-spaced evaluation points. We record the average
+degeneracy type (total, partial, none) and each kernel order ($p=2$, $p=4$), we
+run $2000$ repeats with sample size $n=3000$ (giving $N=4\,498\,500$ pairs of
+nodes) and with $d=50$ equally-spaced evaluation points. We record the average
 rule-of-thumb bandwidth $\hat{h}_{\ROT}$ and the average root integrated mean
 squared error (RIMSE). For both the uniform confidence bands (UCB) and the
 pointwise confidence intervals (PCI), we report the coverage rate (CR) and the
@@ -4166,10 +4116,9 @@ We use a positive semi-definite approximation to
 $\hat\Sigma_n^{1 \triangleright 0}$, denoted by
 $\hat\Sigma_n^{+, 1 \triangleright 0}$,
 as in Section~\ref{sec:kernel_covariance_estimation}. To construct feasible
-uniform
-confidence bands, define a process $\hat Z_n^{T, 1 \triangleright 0}(w)$ which
-is conditionally mean-zero and Gaussian given the data $\bW_n^1$, $\bX_n^0$, and
-$\bX_n^1$, and whose conditional covariance structure is
+uniform confidence bands, define a process $\hat Z_n^{T, 1 \triangleright 0}(w)$
+which is conditionally mean-zero and Gaussian given the data $\bW_n^1$,
+$\bX_n^0$, and $\bX_n^1$, and whose conditional covariance structure is
 $\E\big[\hat Z_n^{T, 1 \triangleright 0}(w)
   \hat Z_n^{T, 1 \triangleright 0}(w')
 \bigm| \bW_n^1, \bX_n^0, \bX_n^1 \big]
@@ -4335,10 +4284,10 @@ choice of preliminary estimation step, we provide results using a
 parametric estimator of the distribution of GDP.
 Figure~\ref{fig:kernel_trade_para}
 repeats the procedure used for Figure~\ref{fig:kernel_trade}, but this time
-replacing
-the histogram estimators by parametric estimators of the log GDP based on
-normal likelihood maximization. The point estimates are qualitatively similar,
-with the counterfactual distribution drifting in the same direction over time.
+replacing the histogram estimators by parametric estimators of the log GDP based
+on normal likelihood maximization. The point estimates are qualitatively
+similar, with the counterfactual distribution drifting in the same direction
+over time.
 The confidence bands are also similar, with the band based on the parametric
 fit being slightly narrower in general. This could be due to the more stringent
 model specification leading to less estimated variance in the fitted values.
@@ -4654,22 +4603,20 @@ statistical applications.
 The most general coupling result of this chapter
 (Theorem~\ref{thm:yurinskii_sa_dependent}) is presented in
 Section~\ref{sec:yurinskii_main_results}, where we also specialize it to a
-slightly
-weaker yet more user-friendly formulation
+slightly weaker yet more user-friendly formulation
 (Proposition~\ref{pro:yurinskii_sa_simplified}). Our Yurinskii coupling for
-approximate
-martingales is a strict generalization of all previous Yurinskii couplings
-available in the literature, offering a Gaussian mixture strong approximation
-for approximate martingale vectors in $\ell^p$-norm, with an improved rate of
-approximation when the third moments of the data are negligible, and with no
-assumptions on the spectrum of the data covariance matrix. A key technical
-innovation underlying the proof of Theorem~\ref{thm:yurinskii_sa_dependent} is
-that we
-explicitly account for the possibility that the minimum eigenvalue of the
-variance may be zero, or its lower bound may be unknown, with the argument
-proceeding using a carefully tailored regularization. Establishing a coupling
-to a Gaussian mixture distribution is achieved by an appropriate conditioning
-argument, leveraging a conditional version of Strassen's theorem established by
+approximate martingales is a strict generalization of all previous Yurinskii
+couplings available in the literature, offering a Gaussian mixture strong
+approximation for approximate martingale vectors in $\ell^p$-norm, with an
+improved rate of approximation when the third moments of the data are
+negligible, and with no assumptions on the spectrum of the data covariance
+matrix. A key technical innovation underlying the proof of
+Theorem~\ref{thm:yurinskii_sa_dependent} is that we explicitly account for the
+possibility that the minimum eigenvalue of the variance may be zero, or its
+lower bound may be unknown, with the argument proceeding using a carefully
+tailored regularization. Establishing a coupling to a Gaussian mixture
+distribution is achieved by an appropriate conditioning argument, leveraging a
+conditional version of Strassen's theorem established by
 \citet{chen2020jackknife}, along with some related technical work detailed in
 Section~\ref{sec:yurinskii_app_proofs}.
 A third-order coupling is obtained via
@@ -4704,26 +4651,22 @@ new Yurinskii coupling features
 \ref{it:yurinskii_contribution_third_order}.
 
 Section~\ref{sec:yurinskii_emp_proc} considers a substantive application of our
-main
-results: strong approximation of martingale empirical processes. We begin with
-the motivating example of canonical kernel density estimation, demonstrating
-how Yurinskii's coupling can be applied, and showing in
+main results: strong approximation of martingale empirical processes. We begin
+with the motivating example of canonical kernel density estimation,
+demonstrating how Yurinskii's coupling can be applied, and showing in
 Lemma~\ref{lem:yurinskii_kde_eigenvalue} why it is essential that we do not
-place any
-conditions on the minimum eigenvalue of the variance matrix
+place any conditions on the minimum eigenvalue of the variance matrix
 \ref{it:yurinskii_contribution_degeneracy}.
 We then present a general-purpose strong
 approximation for martingale empirical processes in
 Proposition~\ref{pro:yurinskii_emp_proc}, combining classical results in the
-empirical
-process literature \citep{van1996weak} with our
+empirical process literature \citep{van1996weak} with our
 Corollary~\ref{cor:yurinskii_sa_martingale}. This statement appears to be the
-first of
-its kind for martingale data, and when specialized to independent
-(and not necessarily identically distributed) data, it is
-shown to be superior to the best known comparable strong approximation result
-available in the literature \citep{berthet2006revisiting}. Our improvement
-comes from using Yurinskii's coupling for the $\ell^\infty$-norm, where
+first of its kind for martingale data, and when specialized to independent (and
+not necessarily identically distributed) data, it is shown to be superior to
+the best known comparable strong approximation result available in the
+literature \citep{berthet2006revisiting}. Our improvement comes from using
+Yurinskii's coupling for the $\ell^\infty$-norm, where
 \citet{berthet2006revisiting} apply Zaitsev's coupling
 \citep{zaitsev1987estimates, zaitsev1987gaussian} with the larger
 $\ell^2$-norm.
@@ -4896,19 +4839,17 @@ This theorem offers four novel contributions to the literature on coupling
 theory and strong approximation, as discussed in the introduction.
 % approximate martingales
 Firstly \ref{it:yurinskii_contribution_approximate_martingale}, it allows for
-approximate
-vector-valued martingales, with the variables $\tilde X_i$ forming martingale
-differences with respect to $\cH_i$ by construction, and $U$ quantifying the
-associated martingale approximation error. Such martingale approximation
-techniques for sequences of dependent random vectors are well established and
-have been used in a range of scenarios: see, for example,
+approximate vector-valued martingales, with the variables $\tilde X_i$ forming
+martingale differences with respect to $\cH_i$ by construction, and $U$
+quantifying the associated martingale approximation error. Such martingale
+approximation techniques for sequences of dependent random vectors are well
+established and have been used in a range of scenarios: see, for example,
 \citet{wu2004martingale}, \citet{dedecker2007weak}, \citet{zhao2008martingale},
 \citet{peligrad2010conditional}, \citet{atchade2014martingale},
 \citet{cuny2014martingale}, \citet{magda2018martingale}, and references
 therein. In Section~\ref{sec:yurinskii_mixingales} we demonstrate how this
-approximation
-can be established in practice by restricting our general theorem to the
-special case of mixingales, while the upcoming example in
+approximation can be established in practice by restricting our general theorem
+to the special case of mixingales, while the upcoming example in
 Section~\ref{sec:yurinskii_factor} provides an illustration in the context of
 auto-regressive factor models.
 
@@ -4993,17 +4934,15 @@ upcoming applications to nonparametric inference
 \subsection{User-friendly formulation of the main result}%
 
 The result in Theorem~\ref{thm:yurinskii_sa_dependent} is given in a somewhat
-implicit
-manner, involving infima over the free parameters $t > 0$ and $M \succeq 0$,
-and it is not clear how to compute these in general. In the upcoming
+implicit manner, involving infima over the free parameters $t > 0$ and $M
+\succeq 0$, and it is not clear how to compute these in general. In the upcoming
 Proposition~\ref{pro:yurinskii_sa_simplified}, we set $M = \nu^2 I_d$ and
-approximately
-optimize over $t > 0$ and $\nu > 0$, resulting in a simplified and slightly
-weaker version of our main general result. In specific applications, where
-there is additional knowledge of the quadratic variation structure, other
+approximately optimize over $t > 0$ and $\nu > 0$, resulting in a simplified and
+slightly weaker version of our main general result. In specific applications,
+where there is additional knowledge of the quadratic variation structure, other
 choices of regularization schemes may be more appropriate. Nonetheless, the
-choice $M = \nu^2 I_d$ leads to arguably the principal result of our work,
-due to its simplicity and utility in statistical applications. For convenience,
+choice $M = \nu^2 I_d$ leads to arguably the principal result of our work, due
+to its simplicity and utility in statistical applications. For convenience,
 define the functions $\phi_p : \N \to \R$ for $p \in [0, \infty]$,
 %
 \begin{align*}
@@ -5071,14 +5010,13 @@ on the dimension. The remaining term depends on $\E[\|\Omega\|_2]$ and requires
 that the matrix $\Sigma$ be a good approximation of $\sum_{i=1}^{n} V_i$, while
 remaining $\cH_0$-measurable. In some applications (such as factor modeling;
 see Section~\ref{sec:yurinskii_factor}), it can be shown that the quadratic
-variation
-$\sum_{i=1}^n V_i$ remains random and $\cH_0$-measurable even in large samples,
-giving a natural choice for $\Sigma$.
+variation $\sum_{i=1}^n V_i$ remains random and $\cH_0$-measurable even in large
+samples, giving a natural choice for $\Sigma$.
 
 In the next few sections, we continue to refine
 Proposition~\ref{pro:yurinskii_sa_simplified}, presenting a sequence of results
-with
-increasingly strict assumptions on the dependence structure of the data $X_i$.
+with increasingly strict assumptions on the dependence structure of the data
+$X_i$.
 These allow us to demonstrate the broad applicability of our main results,
 providing more explicit bounds in settings which are likely to be of special
 interest. In particular, we consider mixingales, martingales, and independent
@@ -5281,12 +5219,10 @@ Section~\ref{sec:yurinskii_kde} we
 demonstrate the crucial importance of removing this eigenvalue lower bound
 restriction in applications involving nonparametric kernel estimators, while in
 Section~\ref{sec:yurinskii_series} we demonstrate how the availability of a
-third-order
-coupling \eqref{eq:yurinskii_sa_martingale_order_3} can give improved
-approximation rates
-in applications involving nonparametric series estimators with conditionally
-symmetrically distributed residual errors. Finally, our technical work improves
-on \citet{li2020uniform} in two respects:
+third-order coupling \eqref{eq:yurinskii_sa_martingale_order_3} can give
+improved approximation rates in applications involving nonparametric series
+estimators with conditionally symmetrically distributed residual errors.
+Finally, our technical work improves on \citet{li2020uniform} in two respects:
 %
 \begin{inlineroman}
   \item
@@ -5317,10 +5253,9 @@ on \citet{li2020uniform} in two respects:
 
 Technicalities akin to those outlined in
 Remark~\ref{rem:yurinskii_coupling_bounds_probability} have been both addressed
-and
-neglected alike in the prior literature. \citet[Chapter 10.4, Example
-16]{pollard2002user} apparently misses this subtlety, providing an
-inaccurate bound in probability based on the Yurinskii coupling.
+and neglected alike in the prior literature. \citet[Chapter 10.4, Example
+16]{pollard2002user} apparently misses this subtlety, providing an inaccurate
+bound in probability based on the Yurinskii coupling.
 \citet{li2020uniform} seem to make the same mistake in the proof of their
 Lemma~A2, which invalidates the conclusion of their Theorem~1. In contrast,
 \citet{belloni2015some} and \citet{belloni2019conditional} directly provide
@@ -5454,12 +5389,12 @@ specialized
 Corollaries~\ref{cor:yurinskii_sa_mixingale}--\ref{cor:yurinskii_sa_indep}. We
 consider three different sets of conditions to demonstrate the applicability of
 each of our corollaries for mixingales, martingales, and independent data,
-respectively. We assume throughout that
-$(\varepsilon_1, \ldots, \varepsilon_n)$ is zero-mean and finite variance, and
-that $(\varepsilon_1, \ldots, \varepsilon_n)$ is independent
-of $L$ and $(f_1, \ldots, f_n)$. Let $\cH_i$ be the $\sigma$-algebra generated
-by $L$, $(f_1, \ldots, f_i)$, and $(\varepsilon_1, \ldots, \varepsilon_i)$, with
-$\cH_0$ the $\sigma$-algebra generated by $L$ alone.
+respectively. We assume throughout that $(\varepsilon_1, \ldots, \varepsilon_n)$
+is zero-mean and finite variance, and that $(\varepsilon_1, \ldots,
+\varepsilon_n)$ is independent of $L$ and $(f_1, \ldots, f_n)$. Let $\cH_i$ be
+the $\sigma$-algebra generated by $L$, $(f_1, \ldots, f_i)$, and
+$(\varepsilon_1, \ldots, \varepsilon_i)$, with $\cH_0$ the $\sigma$-algebra
+generated by $L$ alone.
 
 \begin{itemize}
   \item \emph{Independent data}.
@@ -5673,19 +5608,17 @@ optimized to obtain the tightest possible strong approximation.
 
 The discretization strategy outlined above is at the core of the proof strategy
 for our upcoming Proposition~\ref{pro:yurinskii_emp_proc}. Since we will
-consider
-martingale empirical processes, our proof will rely on
+consider martingale empirical processes, our proof will rely on
 Corollary~\ref{cor:yurinskii_sa_martingale}, which, unlike the martingale
-Yurinskii
-coupling established by \citet{li2020uniform}, does not require a lower bound
-on the minimum eigenvalue of $\Sigma$. Using the simple kernel density example
-just discussed, we now demonstrate precisely the crucial importance of removing
-such eigenvalue conditions. The following
-Lemma~\ref{lem:yurinskii_kde_eigenvalue} shows
-that the discretized covariance matrix $\Sigma = n h\Var[S(\cX_\delta)]$ has
-exponentially small eigenvalues, which in turn will negatively affect the
-strong approximation bound if the \citet{li2020uniform} coupling were to be
-used instead of the results in this dissertation.
+Yurinskii coupling established by \citet{li2020uniform}, does not require a
+lower bound on the minimum eigenvalue of $\Sigma$. Using the simple kernel
+density example just discussed, we now demonstrate precisely the crucial
+importance of removing such eigenvalue conditions. The following
+Lemma~\ref{lem:yurinskii_kde_eigenvalue} shows that the discretized covariance
+matrix $\Sigma = n h\Var[S(\cX_\delta)]$ has exponentially small eigenvalues,
+which in turn will negatively affect the strong approximation bound if the
+\citet{li2020uniform} coupling were to be used instead of the results in this
+dissertation.
 
 \begin{lemma}[Minimum eigenvalue of a
   kernel density estimator covariance matrix]%
@@ -5706,8 +5639,7 @@ used instead of the results in this dissertation.
 %
 Figure~\ref{fig:yurinskii_min_eig} shows how the upper bound in Lemma
 \ref{lem:yurinskii_kde_eigenvalue} captures the behavior of the simulated
-minimum
-eigenvalue of $\Sigma$. In particular, the smallest eigenvalue decays
+minimum eigenvalue of $\Sigma$. In particular, the smallest eigenvalue decays
 exponentially fast in the discretization level $\delta$ and the bandwidth $h$.
 As seen in the calculations above, the coupling rate depends on $\delta / h$,
 while the bias will generally depend on $h$, implying that both $\delta$ and
@@ -5917,8 +5849,7 @@ a tighter coupling inequality; the details of this are omitted for brevity, and
 the proof would proceed in exactly the same manner.
 
 In general, however, Proposition~\ref{pro:yurinskii_emp_proc} allows for a
-random
-covariance function, yielding a coupling to a stochastic process that is
+random covariance function, yielding a coupling to a stochastic process that is
 Gaussian only conditionally. Such a process can equivalently be viewed as a
 mixture of Gaussian processes, writing $T=\Sigma^{1/2} Z$ with an operator
 square root and where $Z$ is a Gaussian white noise on $\cF$ independent of
@@ -6122,9 +6053,8 @@ illustration \citep{bradley2005basic}.
 
     \item
       $\E\big[|\varepsilon_i|^3 \big] < \infty$
-      and
-      $\E\big[\varepsilon_i^2 \mid \cH_{i-1}\big]=\sigma^2(W_i)$
-      is bounded away from zero.
+      and $\E\big[\varepsilon_i^2 \mid \cH_{i-1}\big]=\sigma^2(W_i)$ is bounded
+      away from zero.
 
     \item
       $p(w)$ is a basis with $k$ features satisfying
@@ -6136,9 +6066,7 @@ illustration \citep{bradley2005basic}.
   there is a zero-mean Gaussian process
   $G(w)$ indexed on $\cW$
   with $\Var[G(w)] \asymp\frac{k}{n}$
-  satisfying
-  $\Cov[G(w), G(w')]
-  = \Cov[p(w)^\T H^{-1} S,\, p(w')^\T H^{-1} S]$
+  satisfying $\Cov[G(w), G(w')] = \Cov[p(w)^\T H^{-1} S,\, p(w')^\T H^{-1} S]$
   and
   %
   \begin{align*}
@@ -6165,26 +6093,22 @@ illustration \citep{bradley2005basic}.
 \end{proposition}
 
 The core concept in the proof of Proposition~\ref{pro:yurinskii_series} is to
-apply
-Corollary~\ref{cor:yurinskii_sa_martingale} with
-$S = \sum_{i=1}^n p(W_i) \varepsilon_i$
-and $p=\infty$ to construct $T \sim \cN\big(0, \Var[S]\big)$ such that
-$\|S - T \|_\infty$ is small, and then setting $G(w) = p(w)^\T H^{-1} T$. So
-long as the bias can be appropriately controlled, this result allows for
+apply Corollary~\ref{cor:yurinskii_sa_martingale} with $S = \sum_{i=1}^n p(W_i)
+\varepsilon_i$ and $p=\infty$ to construct $T \sim \cN\big(0, \Var[S]\big)$ such
+that $\|S - T \|_\infty$ is small, and then setting $G(w) = p(w)^\T H^{-1} T$.
+So long as the bias can be appropriately controlled, this result allows for
 uniform inference procedures such as uniform confidence bands or shape
-specification testing. The condition $k^3 / n \to 0$ is the same (up to logs)
-as that imposed by \citet{cattaneo2020large} for i.i.d. data, which gives the
-best known strong approximation rate for this problem. Thus,
+specification testing. The condition $k^3 / n \to 0$ is the same (up to logs) as
+that imposed by \citet{cattaneo2020large} for i.i.d. data, which gives the best
+known strong approximation rate for this problem. Thus,
 Proposition~\ref{pro:yurinskii_series} gives the same best approximation rate
-without
-requiring any extra restrictions for $\alpha$-mixing time series data.
+without requiring any extra restrictions for $\alpha$-mixing time series data.
 
 Our results improve substantially on \citet[Theorem~1]{li2020uniform}: using
 the notation of our Corollary~\ref{cor:yurinskii_sa_martingale}, and with any
-sequence
-$R_n \to \infty$, a valid (see
-Remark~\ref{rem:yurinskii_coupling_bounds_probability})
-version of their martingale Yurinskii coupling is
+sequence $R_n \to \infty$, a valid (see
+Remark~\ref{rem:yurinskii_coupling_bounds_probability}) version of their
+martingale Yurinskii coupling is
 %
 \begin{align*}
   \|S-T\|_2
@@ -6252,8 +6176,7 @@ where $\rho(w,w') = \E[G(w)G(w')]$. Further, by a Gaussian--Gaussian
 comparison result \citep[Lemma~3.1]{chernozhukov2013gaussian} and
 anti-concentration, we show (see the proof of
 Proposition~\ref{pro:yurinskii_series}) that with $\bW = (W_1, \ldots, W_n)$
-and
-$\bY = (Y_1, \ldots, Y_n)$,
+and $\bY = (Y_1, \ldots, Y_n)$,
 %
 \begin{align*}
   \sup_{t \in \R}
@@ -6342,9 +6265,8 @@ As a second example application we consider nonparametric regression estimation
 with martingale data employing local polynomial methods
 \citep{fan1996local}. In contrast with the partitioning-based series
 methods of Section~\ref{sec:yurinskii_series}, local polynomials induce
-stochastic
-processes which are not linearly separable, allowing us to showcase the
-empirical process result given in Proposition \ref{pro:yurinskii_emp_proc}.
+stochastic processes which are not linearly separable, allowing us to showcase
+the empirical process result given in Proposition \ref{pro:yurinskii_emp_proc}.
 
 As before, suppose that
 $Y_i = \mu(W_i) + \varepsilon_i$
@@ -6389,12 +6311,9 @@ if $h \to 0$, and decomposes as follows:
   + \Bias(w)
 \end{align*}
 %
-where
-$\hat H(w) = \sum_{i=1}^n K_h(W_i-w) p_h(W_i-w) p_h(W_i-w)^\T$,
-$H(w) = \E \big[ \hat H(w) \big]$,
-$S(w)= \sum_{i=1}^n K_h(W_i-w) p_h(W_i-w) \varepsilon_i$,
-and
-$\Bias(w) = e_1^\T \hat H(w)^{-1}
+where $\hat H(w) = \sum_{i=1}^n K_h(W_i-w) p_h(W_i-w) p_h(W_i-w)^\T$, $H(w) = \E
+\big[ \hat H(w) \big]$, $S(w)= \sum_{i=1}^n K_h(W_i-w) p_h(W_i-w)
+\varepsilon_i$, and $\Bias(w) = e_1^\T \hat H(w)^{-1}
 \sum_{i=1}^n K_h(W_i-w) p_h(W_i-w) \mu(W_i) - \mu(w)$.
 A key distinctive feature of local polynomial regression is that both
 $\hat H(w)$ and $S(w)$ are functions of the evaluation point $w\in\cW$;
@@ -6402,8 +6321,7 @@ contrast this with the partitioning-based series estimator discussed in
 Section~\ref{sec:yurinskii_series}, for which neither $\hat H$ nor $S$ depend
 on $w$.
 Therefore we use Proposition \ref{pro:yurinskii_emp_proc} to obtain a Gaussian
-strong
-approximation for the martingale empirical process directly.
+strong approximation for the martingale empirical process directly.
 
 Under mild regularity conditions, including stationarity for simplicity
 and an $\alpha$-mixing assumption on the time-dependence of the data, we show
@@ -6467,10 +6385,8 @@ With this approach, we obtain the following result.
   there is a zero-mean Gaussian process
   $T(w)$ on $\cW$
   with $\Var[T(w)] \asymp\frac{1}{n h^m}$
-  satisfying
-  $\Cov[T(w), T(w')]
-  = \Cov[e_1^\T H(w)^{-1} S(w),\, e_1^\T H(w')^{-1} S(w')]$
-  and
+  satisfying $\Cov[T(w), T(w')] = \Cov[e_1^\T H(w)^{-1} S(w),\, e_1^\T
+  H(w')^{-1} S(w')]$ and
   %
   \begin{align*}
     \sup_{w \in \cW}
@@ -6533,13 +6449,11 @@ treatment of other functionals as well as the supremum.
 We finally remark that in this setting of kernel-based local empirical
 processes, it is essential that our initial strong approximation result
 (Corollary~\ref{cor:yurinskii_sa_martingale}) does not impose a lower bound on
-the
-eigenvalues of the variance matrix $\Sigma$. This effect was demonstrated by
-Lemma \ref{lem:yurinskii_kde_eigenvalue},
-Figure~\ref{fig:yurinskii_min_eig}, and their surrounding discussion in
-Section~\ref{sec:yurinskii_kde}. As such, the result of \citet{li2020uniform} is
-unsuited for this application, even in its simplest formulation,
-due to the strong minimum eigenvalue assumption.
+the eigenvalues of the variance matrix $\Sigma$. This effect was demonstrated by
+Lemma \ref{lem:yurinskii_kde_eigenvalue}, Figure~\ref{fig:yurinskii_min_eig},
+and their surrounding discussion in Section~\ref{sec:yurinskii_kde}. As such,
+the result of \citet{li2020uniform} is unsuited for this application, even in
+its simplest formulation, due to the strong minimum eigenvalue assumption.
 
 \section{Conclusion}
 \label{sec:yurinskii_conclusion}
@@ -6679,8 +6593,7 @@ data points up to logarithmic terms.
 
 \begin{proof}[Lemma~\ref{lem:mondrian_app_active_data}]
 
-  Note
-  $N_\cup(x) \sim
+  Note $N_\cup(x) \sim
   \Bin\left(n, \int_{\bigcup_{b=1}^{B} T_b(x)} f(s) \diff s \right)
   \leq \Bin\left(n, 2^d \max_{1 \leq b \leq B} \max_{1 \leq j \leq d}
   |T_b(x)_j|^d \|f\|_\infty \right)$
@@ -6992,12 +6905,9 @@ beginning with $\cD = \emptyset$ and ending at $\cD = \cR$.
     4 d B_0 e^{-t/4}.
   \end{align*}
   %
-  Thus
-  $N_b(D) \geq \Bin(n/2, |D| \inf_x f(x))$
-  conditional on
-  $\left\{ \bT, N_b(D') : D' \in \cR \setminus (\cD \cup \{D\}) \right\}$
-  with probability at least
-  $1 - 4 d B_0 e^{\frac{-\sqrt \lambda}{8 \|f\|_\infty}}$.
+  Thus $N_b(D) \geq \Bin(n/2, |D| \inf_x f(x))$ conditional on $\left\{ \bT,
+  N_b(D') : D' \in \cR \setminus (\cD \cup \{D\}) \right\}$ with probability
+  at least $1 - 4 d B_0 e^{\frac{-\sqrt \lambda}{8 \|f\|_\infty}}$.
   So by Lemma~\ref{lem:mondrian_app_binomial_bound},
   %
   \begin{align*}
@@ -8999,12 +8909,10 @@ results for the debiased Mondrian random forest estimator.
   independent copy of $(X_j, Y_j)$,
   denoted $(\tilde X_j, \tilde Y_j)$, if $i = j$,
   and define $\tilde \varepsilon_{i j} = \tilde Y_{i j} - \mu(\tilde X_{i j})$.
-  Write
-  $\tilde \I_{i j b r}(x) = \I \big\{ \tilde X_{i j} \in T_{b r}(x) \big\}$
-  and
-  $\tilde \I_{j b r}(x) = \I \big\{ \tilde X_{j} \in T_{b r}(x) \big\}$,
-  and also
-  $\tilde N_{j b r}(x) = \sum_{i=1}^{n} \tilde \I_{i j b r}(x)$.
+  Write $\tilde \I_{i j b r}(x) = \I \big\{ \tilde X_{i j} \in T_{b r}(x)
+  \big\}$ and $\tilde \I_{j b r}(x) = \I \big\{ \tilde X_{j} \in T_{b r}(x)
+  \big\}$, and also $\tilde N_{j b r}(x) = \sum_{i=1}^{n} \tilde \I_{i j b
+  r}(x)$.
   We use the leave-one-out notation
   $N_{-j b r}(x) = \sum_{i \neq j} \I_{i b r}(x)$
   and also write
@@ -9176,10 +9084,8 @@ results for the debiased Mondrian random forest estimator.
   \end{align*}
   %
   where we used Lemma~\ref{lem:mondrian_app_simple_moment_denominator}.
-  So
-  $\sum_{i=1}^{n} S_i(x)^2 - n \,\E \left[ S_i(x)^2 \right]
-  = O_\P \left( \frac{1}{\sqrt B} + \sqrt{\frac{\lambda^d \log n}{n}} \right)
-  = o_\P(1)$.
+  So $\sum_{i=1}^{n} S_i(x)^2 - n \,\E \left[ S_i(x)^2 \right] = O_\P \left(
+  \frac{1}{\sqrt B} + \sqrt{\frac{\lambda^d \log n}{n}} \right) = o_\P(1)$.
 
   \proofparagraph{calculating the limiting variance}
   %
@@ -10154,10 +10060,8 @@ results for the debiased Mondrian random forest estimator.
     \diff{t},
   \end{align*}
   %
-  since
-  $\int_0^a 2 t \Gamma(0, t) \diff t = a^2 \Gamma(0, a) - a e^{-a} -e^{-a} + 1$
-  and
-  $\int_a^\infty \Gamma(0, t) \diff t = e^{-a} - a \Gamma(0, a)$.
+  since $\int_0^a 2 t \Gamma(0, t) \diff t = a^2 \Gamma(0, a) - a e^{-a} -e^{-a}
+  + 1$ and $\int_a^\infty \Gamma(0, t) \diff t = e^{-a} - a \Gamma(0, a)$.
   Next, we use
   %
   $ \int_{0}^{\infty} \Gamma(0, t) \diff t = 1$,
@@ -10165,10 +10069,8 @@ results for the debiased Mondrian random forest estimator.
   = \frac{\log(1+a)}{a}$,
   $\int_{0}^{\infty} t e^{-at} \Gamma(0, t) \diff t
   = \frac{\log(1+a)}{a^2} - \frac{1}{a(a+1)}$,
-  and
-  $\int_{0}^{\infty} t^2 \Gamma(0, t) \Gamma(0, at) \diff t
-  = - \frac{2a^2 + a + 2}{3a^2 (a+1)} + \frac{2(a^3 + 1) \log(a+1)}{3a^3}
-  - \frac{2 \log a}{3}$
+  and $\int_{0}^{\infty} t^2 \Gamma(0, t) \Gamma(0, at) \diff t = - \frac{2a^2 +
+  a + 2}{3a^2 (a+1)} + \frac{2(a^3 + 1) \log(a+1)}{3a^3} - \frac{2 \log a}{3}$
   to see
   %
   \begin{align*}
@@ -10567,8 +10469,8 @@ Our analysis of Mondrian random forest estimators in the main text
 is for the most part
 conducted pointwise, in the sense that we first fix $x \in [0,1]^d$
 and then analyze $\hat\mu(x)$. This means that we interact with the Mondrian
-process
-only through $T(x)$; that is, the cell in $T$ which contains the point $x$.
+process only through $T(x)$; that is, the cell in $T$ which contains the point
+$x$.
 As such, we rely only on local properties of $T$, and may consider just a
 single Mondrian cell. The lemmas in this section take a more global approach
 to analyzing the Mondrian process, and we make statements about the
@@ -10925,8 +10827,7 @@ partitions.
 We begin our analysis of Mondrian forest refinements with a pair of simple
 inequalities for bounding the total number of refined cells
 in Lemma~\ref{lem:mondrian_app_refinement_inequalities}. This result does not
-depend
-on the probabilistic structure of the Mondrian process, and holds for any
+depend on the probabilistic structure of the Mondrian process, and holds for any
 rectangular partitions.
 
 \begin{lemma}[Inequalities for refinements of rectangular partitions]
@@ -10997,10 +10898,10 @@ refinement as they do not take into account the random structure.
 Indeed, it should be clear that the ``worst case'' scenarios, involving
 trees which contain splits only in a single direction, should be extremely
 unlikely under the Mondrian law. In Lemma~\ref{lem:mondrian_app_refinement} we
-confirm
-this intuition and provide an exact value for the expected number of cells
-in a Mondrian refinement by direct calculation. This result strictly generalizes
-the single tree version provided as \citet[Proposition~2]{mourtada2020minimax}.
+confirm this intuition and provide an exact value for the expected number of
+cells in a Mondrian refinement by direct calculation. This result strictly
+generalizes the single tree version provided as
+\citet[Proposition~2]{mourtada2020minimax}.
 
 \begin{lemma}[Expected number of cells in a Mondrian forest refinement]
   \label{lem:mondrian_app_refinement}
@@ -11454,13 +11355,9 @@ the resulting sample paths.
   there exists on some probability space
   a copy of
   $\big(\bA_n, \bV_n, E_n\big)$,
-  denoted
-  $\big(\bA_n', \bV_n', E_n'\big)$,
-  and a process
-  $\tilde Z^{E\prime}_n$
-  which is Gaussian conditional on $\bA_n'$
-  and mean-zero conditional on $\bA_n'$,
-  satisfying
+  denoted $\big(\bA_n', \bV_n', E_n'\big)$, and a process $\tilde Z^{E\prime}_n$
+  which is Gaussian conditional on $\bA_n'$ and mean-zero conditional on
+  $\bA_n'$, satisfying
   %
   \begin{align*}
     \P\left(
@@ -11547,12 +11444,8 @@ the resulting sample paths.
   (on some probability space)
   a copy of
   $\big(\bA_n', \bV_n', \tilde Z_n^{E\prime}\big)$,
-  denoted
-  $\big(\bA_n'', \bV_n'', \tilde Z_n^{E\dprime}\big)$,
-  and a centered
-  Gaussian process
-  $Z^{E\dprime}_n$
-  satisfying
+  denoted $\big(\bA_n'', \bV_n'', \tilde Z_n^{E\dprime}\big)$, and a centered
+  Gaussian process $Z^{E\dprime}_n$ satisfying
   %
   \begin{align*}
     \E\left[
@@ -11821,8 +11714,7 @@ alternative representation which is more amenable to computation.
 We show how to obtain a positive semi-definite estimator $\hat \Sigma_n^+$
 which is uniformly entrywise-consistent for $\Sigma_n$. Define $\hat \Sigma_n$
 as in Lemma~\ref{lem:kernel_app_covariance_estimation} and consider the
-following
-optimization problem over bivariate functions.
+following optimization problem over bivariate functions.
 %
 \begin{equation}
   \label{eq:kernel_app_sdp}
@@ -11877,10 +11769,9 @@ The optimization problem \eqref{eq:kernel_app_sdp} is stated for functions
 rather than
 matrices so is infinite-dimensional. However, when restricting to finite-size
 matrices, Lemma~\ref{lem:kernel_app_sdp} still holds and does not depend on the
-size
-of the matrices. Furthermore, the problem then becomes a semi-definite program
-and so can be solved to arbitrary precision in polynomial time in the size of
-the matrices \citep{laurent2005semidefinite}.
+size of the matrices. Furthermore, the problem then becomes a semi-definite
+program and so can be solved to arbitrary precision in polynomial time in the
+size of the matrices \citep{laurent2005semidefinite}.
 
 The Lipschitz-type constraint in the optimization problem
 \eqref{eq:kernel_app_sdp}
@@ -11915,9 +11806,8 @@ We use the strong approximation derived in
 Section~\ref{sec:kernel_app_strong_approx} and the
 positive semi-definite covariance estimator introduced in
 Section~\ref{sec:kernel_app_covariance_estimation} to construct feasible
-uniform
-confidence bands. We drop the prime notation for copies of processes
-in the interest of clarity.
+uniform confidence bands. We drop the prime notation for copies of processes in
+the interest of clarity.
 
 \begin{lemma}[Proximity of the standardized and studentized $t$-statistics]
   \label{lem:kernel_app_studentized_t_statistic}
@@ -12090,8 +11980,7 @@ Define the counterfactual dyadic kernel density estimator
   k_h(W_{i j}^1, w),
 \end{align*}
 %
-where
-$\hat\psi(x) = \I\{\hat p_X^{1}(x) > 0\}\hat p_X^{0}(x) / \hat p_X^{1}(x)$
+where $\hat\psi(x) = \I\{\hat p_X^{1}(x) > 0\}\hat p_X^{0}(x) / \hat p_X^{1}(x)$
 and $\hat p_X^{r}(x) = \frac{1}{n}\sum_{i = 1}^n \I\{X_i^r = x\}$.
 Since $p_X^r(x) > 0$,
 %
@@ -12121,8 +12010,7 @@ is an asymptotic linear representation where
   \frac{\I\{X_i^1 = x\} - p_X^1(x)}{p_X^1(x)}
 \end{align*}
 %
-satisfies
-$\E[\kappa(X_i^0, X_i^1, x)] = 0$.
+satisfies $\E[\kappa(X_i^0, X_i^1, x)] = 0$.
 We now establish uniform consistency and feasible strong
 approximation results for the counterfactual density estimator.
 
@@ -12732,8 +12620,7 @@ conditional distribution.
   \sigma
   \leq
   \|F\|_{\bar\P,2}$
-  and
-  $M = \max_{1 \leq i \leq n} F(X_i)$.
+  and $M = \max_{1 \leq i \leq n} F(X_i)$.
   Then with
   $\delta = \sigma / \|F\|_{\bar\P,2} \in (0,1]$,
   %
@@ -12838,11 +12725,8 @@ of i.n.i.d.\ variables.
   Then on some probability space
   there exist independent copies of
   $X_1, \ldots, X_n$,
-  denoted
-  $X_1', \ldots, X_n'$,
-  and a mean-zero Gaussian process $Z_n(x)$
-  such that if we define
-  the empirical process
+  denoted $X_1', \ldots, X_n'$, and a mean-zero Gaussian process $Z_n(x)$ such
+  that if we define the empirical process
   %
   \begin{align*}
     G_n(x)
@@ -12850,9 +12734,7 @@ of i.n.i.d.\ variables.
     \Big(g_n(X_i',x) - \E\big[g_n(X_i',x)\big]\Big),
   \end{align*}
   %
-  then
-  for some universal positive constants
-  $C_1$, $C_2$, and $C_3$,
+  then for some universal positive constants $C_1$, $C_2$, and $C_3$,
   %
   \begin{align*}
     \P\left(
@@ -12894,8 +12776,7 @@ of i.n.i.d.\ variables.
   where $C_1 > 0$ is a constant.
   Let $g_n$ be measurable on $S \times \cX_n$ satisfying
   $\sup_{\xi \in S} \sup_{x \in \cX_n} |g_n(\xi, x)| \leq M_n$
-  and
-  $\sup_{x \in \cX_n} \max_{1 \leq i \leq n} \Var[g_n(X_i, x)]
+  and $\sup_{x \in \cX_n} \max_{1 \leq i \leq n} \Var[g_n(X_i, x)]
   \leq \sigma_n^2$,
   with $\left|\log M_n\right| \leq C_1 \log n$
   and $\left|\log \sigma_n^2\right| \leq C_1 \log n$.
@@ -13135,11 +13016,8 @@ We begin with some definitions.
       where $\|\cdot\|$ is a norm on $\cD[0,1]$.
       Then there exist copies of
       $X_1, \ldots, X_n$
-      denoted
-      $X_1'', \ldots, X_n''$
-      satisfying
-      $\P\big(\|X_{i+1}'' - X_i''\| > t)\leq r_i$
-      for each $1 \leq i \leq n$.
+      denoted $X_1'', \ldots, X_n''$ satisfying $\P\big(\|X_{i+1}'' - X_i''\| >
+      t)\leq r_i$ for each $1 \leq i \leq n$.
       That is, all of the inequalities
       can be satisfied simultaneously
       on the same probability space.
@@ -13658,8 +13536,7 @@ they are needed.
   Let $\cU$ be a vector space.
   Let $u_{i j} \in \cU$ be defined for
   $1 \leq i, j \leq n$
-  and
-  $i \neq j$.
+  and $i \neq j$.
   Suppose that $u_{i j} = u_{j i}$
   for all $i,j$.
   Then for any $u_i \in \cU$
@@ -13747,10 +13624,8 @@ they are needed.
   for any $m$-permutation $\tau$.
   Suppose also that
   $\E[H(X_1, \ldots, X_m)] = 0$.
-  Let
-  $M = \|H\|_\infty$
-  and
-  $\sigma^2 = \E\big[\E[H(X_1, \ldots, X_m) \mid X_1]^2\big]$.
+  Let $M = \|H\|_\infty$ and $\sigma^2 = \E\big[\E[H(X_1, \ldots, X_m) \mid
+  X_1]^2\big]$.
   Define the U-statistic
   %
   \begin{align*}
@@ -13830,12 +13705,8 @@ they are needed.
   %
   for some constants
   $C_1 \geq e$
-  and
-  $C_2 \geq 1$,
-  and for all $\varepsilon \in (0,1]$,
-  where $\Q$ ranges over all finite discrete laws
-  on
-  $S \times S$.
+  and $C_2 \geq 1$, and for all $\varepsilon \in (0,1]$, where $\Q$ ranges over
+  all finite discrete laws on $S \times S$.
   Let $\sigma > 0$ be any deterministic value satisfying
   $\sup_{f \in \cF} \|f\|_{\P,2} \leq \sigma \leq \|F\|_{\P,2}$,
   and define the random variable $M = \max_{i,j} |F(X_i, X_j)|$.
@@ -13875,11 +13746,8 @@ they are needed.
 
   Let $X_1, \ldots, X_n$ be i.i.d.\ random variables
   taking values in a measurable space $(S, \cS)$.
-  Suppose
-  $H: S^2 \to \R^{d \times d}$
-  is a measurable matrix-valued function
-  of two variables
-  satisfying the following:
+  Suppose $H: S^2 \to \R^{d \times d}$ is a measurable matrix-valued function of
+  two variables satisfying the following:
   %
   \begin{enumerate}[label=(\roman*)]
 
@@ -14060,9 +13928,7 @@ they are needed.
     C e^{-t}.
   \end{align*}
   %
-  Defining
-  $s = 8 C M n t^{3/2}$
-  so $t = \left( \frac{s}{8C M n} \right)^{2/3}$
+  Defining $s = 8 C M n t^{3/2}$ so $t = \left( \frac{s}{8C M n} \right)^{2/3}$
   shows that for any $s \geq 8C M n(\log d)^{3/2}$,
   %
   \begin{align*}
@@ -14207,8 +14073,7 @@ on each of the points $-1$ and $1$.
   Let $\varepsilon_1, \ldots, \varepsilon_n$
   be independent Rademacher random variables
   and $\cT$ be a bounded subset of $\R^n$.
-  Define
-  $M = \sup_{t \in \cT} \max_{1 \leq i \leq n} |t_i|$.
+  Define $M = \sup_{t \in \cT} \max_{1 \leq i \leq n} |t_i|$.
   Then, noting that the supremum is measurable
   because $\cT$ is a subset of a separable metric space
   and is therefore itself separable,
@@ -14297,9 +14162,7 @@ on each of the points $-1$ and $1$.
   Note that since $|t_i| \leq M$
   by definition,
   we have $\psi_i(t_i) = t_i^2 / (2M)$.
-  Hence
-  by Theorem~4.12
-  from \citet{ledoux1991probability},
+  Hence by Theorem~4.12 from \citet{ledoux1991probability},
   %
   \begin{align*}
     \E
@@ -14476,15 +14339,10 @@ on each of the points $-1$ and $1$.
   We use Talagrand's formulation of
   a Hoffmann--J{\o}rgensen inequality.
   Consider the
-  independent
-  $\ell^\infty(\cF)$-valued
-  random functionals $u_i$ defined by
-  $u_i(f) = \varepsilon_i f(X_i)$,
-  where $\ell^\infty(\cF)$
-  is the Banach space of bounded functions from
-  $\cF$ to $\R$,
-  equipped with the norm
-  $\|u\|_\cF = \sup_{f \in \cF} |u(f)|$.
+  independent $\ell^\infty(\cF)$-valued random functionals $u_i$ defined by
+  $u_i(f) = \varepsilon_i f(X_i)$, where $\ell^\infty(\cF)$ is the Banach space
+  of bounded functions from $\cF$ to $\R$, equipped with the norm $\|u\|_\cF =
+  \sup_{f \in \cF} |u(f)|$.
   Then Remark~3.4 in \citet{kwapien1991hypercontraction} gives
   %
   \begin{align*}
@@ -14775,11 +14633,9 @@ on each of the points $-1$ and $1$.
     \left( \Delta \vee \sqrt{DZ} \right),
   \end{align*}
   %
-  where
-  $\Delta^2 = \|F\|_{\bar\P,2}^{-2}
+  where $\Delta^2 = \|F\|_{\bar\P,2}^{-2}
   \big(\sigma^2 \vee (\|M\|_{\P,2}^2 / n) \big) \geq \delta^2$
-  and
-  $D = \|M\|_{\P,2} n^{-1/2} \|F\|_{\bar\P,2}^{-2}$.
+  and $D = \|M\|_{\P,2} n^{-1/2} \|F\|_{\bar\P,2}^{-2}$.
   Thus returning to our bound on $Z$,
   we now have
   %
@@ -14795,10 +14651,8 @@ on each of the points $-1$ and $1$.
   from \citet{chernozhukov2014gaussian},
   considering cases separately for
   $\Delta \geq \sqrt{DZ}$
-  and
-  $\Delta < \sqrt{DZ}$,
-  and applying convexity properties of
-  the entropy integral $J$.
+  and $\Delta < \sqrt{DZ}$, and applying convexity properties of the entropy
+  integral $J$.
 \end{proof}
 
 \begin{proof}[Lemma~\ref{lem:kernel_app_maximal_vc_inid}]
@@ -14941,8 +14795,7 @@ we give a bounded-variation characterization
   where clearly
   $\I[0, a_k] \in \cI$,
   $g(a_k) - g(a_{k+1}) \geq 0$,
-  and
-  $\sum_{k = 1}^{|A_n|-1}
+  and $\sum_{k = 1}^{|A_n|-1}
   \big(
     g(a_k) - g(a_{k+1})
   \big)
@@ -14973,10 +14826,7 @@ we give a bounded-variation characterization
   \citep{royden1988real},
   we can write
   $f = f^+ - f^-$,
-  with
-  $f^+$ and $f^-$ weakly decreasing,
-  $f^+(1) = f^-(1) = 0$,
-  and
+  with $f^+$ and $f^-$ weakly decreasing, $f^+(1) = f^-(1) = 0$, and
   $\|f^+\|_\TV + \|f^-\|_\TV = \|f\|_\TV$.
   Supposing that both
   $\|f^+\|_\TV$ and $\|f^-\|_\TV$
@@ -14984,9 +14834,7 @@ we give a bounded-variation characterization
   $g_n^+$ approximate
   the unit-variation function
   $f^+/\|f^+\|_\TV$
-  and
-  $g_n^-$ approximate $f^-/\|f^-\|_\TV$
-  as above.
+  and $g_n^-$ approximate $f^-/\|f^-\|_\TV$ as above.
   Then since trivially
   %
   \begin{align*}
@@ -15044,10 +14892,8 @@ we give a bounded-variation characterization
     B_n(s) - s B_n(1),
   \end{align*}
   %
-  then
-  for some universal positive constants
-  $C_1$, $C_2$, $C_3$,
-  and for all $t > 0$,
+  then for some universal positive constants $C_1$, $C_2$, $C_3$, and for all $t
+  > 0$,
   %
   \begin{align*}
     \P\left(
@@ -15088,9 +14934,8 @@ we give a bounded-variation characterization
   we have
   $\cV_1 \subseteq \overline\symconv \ \cI$
   where $\overline{\symconv} \ \cI$ is the
-  smallest
-  symmetric convex class containing $\cI$
-  which is closed under pointwise convergence.
+  smallest symmetric convex class containing $\cI$ which is closed under
+  pointwise convergence.
   Thus by the dominated convergence theorem,
   every function in $\cV_1$ is approximated in $L^2$ by finite convex
   combinations of functions in $\pm\cI$,
@@ -15566,9 +15411,7 @@ we give a bounded-variation characterization
   by the Vorob'ev--Berkes--Philipp theorem
   (Lemma~\ref{lem:kernel_app_vbp})
   to a mean-zero Gaussian
-  process
-  $Z_n$ on the compact interval $\cX_n$
-  with covariance structure
+  process $Z_n$ on the compact interval $\cX_n$ with covariance structure
   %
   \begin{align*}
     \E\big[
@@ -15834,14 +15677,11 @@ we give a bounded-variation characterization
     l_{n,2}^2 \, |x - x'|^2.
   \end{align*}
   %
-  Hence
-  $\rho(x, x')
+  Hence $\rho(x, x')
   \leq
   l_{n,2} \, |x - x'|$.
-  By
-  the Gaussian process maximal inequality from
-  Lemma~\ref{lem:kernel_app_gaussian_process_maximal},
-  we obtain that
+  By the Gaussian process maximal inequality from
+  Lemma~\ref{lem:kernel_app_gaussian_process_maximal}, we obtain that
   %
   \begin{align*}
     &\E\bigg[
@@ -16040,8 +15880,7 @@ we give a bounded-variation characterization
   $\cX_n$;
   and to the laws
   $\P^{(n-1)}$
-  and
-  $\P_{n-1, n}$.
+  and $\P_{n-1, n}$.
   This gives a law $\P^{(n)}$
   which agrees with $\P_i$
   at every vertex by definition,
@@ -16154,9 +15993,8 @@ gives
   %
   But then either
   $\int_\cX f(x) \diff{x} > \int_\cX 1/\Leb(\cX) \diff{x} = 1$
-  or
-  $\int_\cX f(x) \diff{x} < \int_\cX -1/\Leb(\cX) \diff{x} = -1 < 1$,
-  giving a contradiction.
+  or $\int_\cX f(x) \diff{x} < \int_\cX -1/\Leb(\cX) \diff{x} = -1 < 1$, giving
+  a contradiction.
 
   For the second inequality,
   assume that $f$ is non-negative on $\cX$,
@@ -16566,10 +16404,8 @@ gives
 
   \proofparagraph{total degeneracy}
 
-  Suppose
-  $\Dl = 0$, so
-  $\Var[f_{W \mid A}(w \mid A_i)] = 0$
-  for all $w \in \cW$.
+  Suppose $\Dl = 0$, so $\Var[f_{W \mid A}(w \mid A_i)] = 0$ for all $w \in
+  \cW$.
   Therefore, for all $w \in \cW$,
   we have $f_{W \mid A}(w) = f_W(w)$ almost surely.
   By taking a union over $\cW \cap \Q$
@@ -16707,9 +16543,7 @@ gives
   \end{align*}
   %
   If conversely $w$ is not a degenerate point
-  then
-  $\Var[f_{W \mid A}(w \mid A_i)] > 0$
-  so eventually
+  then $\Var[f_{W \mid A}(w \mid A_i)] > 0$ so eventually
   %
   \begin{align*}
     \Var[L_n(w)]
@@ -16784,9 +16618,7 @@ gives
   %
   where $\Q$ ranges over Borel
   probability measures on $\cW$.
-  Since
-  $\frac{C_\rk}{h}$
-  is an envelope for $\cF_1$,
+  Since $\frac{C_\rk}{h}$ is an envelope for $\cF_1$,
   %
   \begin{align*}
     \sup_\Q
@@ -16810,9 +16642,7 @@ gives
     (C_1/(h\varepsilon))^{C_2},
   \end{align*}
   %
-  where
-  $C_1 = \frac{C_\rL}{C_\rk} (\Leb(\cW) \vee 1)$
-  and $C_2 = 1$.
+  where $C_1 = \frac{C_\rL}{C_\rk} (\Leb(\cW) \vee 1)$ and $C_2 = 1$.
   Next, $\cF_2$ forms a smoothly parameterized class of functions
   since for $w,w' \in \cW$ we have
   by the uniform Lipschitz properties of
@@ -17348,11 +17178,8 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   Clearly,
   $f_W \in \cH^\beta_{C_\rH}(\cW)$ and
   $f_{W \mid AA}(\cdot \mid a, a') \in \cH^1_{C_\rH}(\cW)$.
-  Also
-  $\sup_{w \in \cW} \|f_{W \mid A}(w \mid \cdot\,)\|_\TV \leq 1$.
-  Therefore
-  $\P_\theta$ satisfies Assumption~\ref{ass:kernel_data}
-  and so
+  Also $\sup_{w \in \cW} \|f_{W \mid A}(w \mid \cdot\,)\|_\TV \leq 1$.
+  Therefore $\P_\theta$ satisfies Assumption~\ref{ass:kernel_data} and so
   $\big\{\P_\theta : \theta \in [1/2, 1] \big\} \subseteq \cP$.
 
   Note that $f_W(1) = \frac{1}{2} + (2\theta^2 - 1) C_\rH $,
@@ -17708,10 +17535,7 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   $n(n-1)/2$
   summands where
   $|\{i,j,r,s\}| = 2$,
-  and
-  $n(n-1)(n-2)$
-  summands where
-  $|\{i,j,r,s\}| = 3$.
+  and $n(n-1)(n-2)$ summands where $|\{i,j,r,s\}| = 3$.
   Therefore, since the samples
   are identically distributed,
   the value of the summands
@@ -18186,8 +18010,7 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   conditionally on $\bA_n$.
   Note that
   $\sup_{s,w \in \cW} |k_h(s,w)| \lesssim M_n = h^{-1}$
-  and
-  $\E[k_h(W_{i j},w)^2 \mid \bA_n] \lesssim \sigma_n^2 = h^{-1}$.
+  and $\E[k_h(W_{i j},w)^2 \mid \bA_n] \lesssim \sigma_n^2 = h^{-1}$.
   The following uniform Lipschitz condition holds
   with $l_{n,\infty} = C_\rL h^{-2}$,
   by the Lipschitz property of the kernels:
@@ -18432,8 +18255,7 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   Let $\tilde Z_{n,\delta}^{E\prime}$
   be the restriction of $\tilde Z_n^{E\prime}$
   to $\cW_\delta$.
-  Let
-  $\tilde \Sigma_n^E(w, w') =
+  Let $\tilde \Sigma_n^E(w, w') =
   \E\big[\tilde Z_n^{E\prime}(w) \tilde Z_n^{E\prime}(w')
   \mid \bA_n' \big]$
   be the conditional covariance function of $\tilde Z_n^{E\prime}$,
@@ -18465,17 +18287,11 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   which has the same distribution as
   $\tilde Z_{n}^{E\prime}$,
   conditional on $\bA_n'$.
-  Define
-  $Z_{n,\delta}^{E\dprime} = \big(\Sigma^E_{n,\delta})^{1/2} N$,
-  noting that this is independent of $\bA_n'$,
-  and extend it using
-  the Vorob'ev--Berkes--Philipp theorem
-  (Lemma~\ref{lem:kernel_app_vbp})
-  to a Gaussian process
-  $Z_n^{E\dprime}$ on the compact interval $\cW$,
-  which is independent of $\bA_n'$
-  and has covariance structure given by
-  $\Sigma_n^E$.
+  Define $Z_{n,\delta}^{E\dprime} = \big(\Sigma^E_{n,\delta})^{1/2} N$, noting
+  that this is independent of $\bA_n'$, and extend it using the
+  Vorob'ev--Berkes--Philipp theorem (Lemma~\ref{lem:kernel_app_vbp}) to a
+  Gaussian process $Z_n^{E\dprime}$ on the compact interval $\cW$, which is
+  independent of $\bA_n'$ and has covariance structure given by $\Sigma_n^E$.
 
   \proofparagraph{closeness of $Z_n^{E\dprime}$ and
   $\tilde Z_n^{E\dprime}$ on the mesh}
@@ -18514,14 +18330,10 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   for second-order U-statistics
   presented in Lemma~\ref{lem:kernel_app_ustat_matrix_concentration}.
   Firstly, we note that
-  since
-  the conditional covariance structures of
-  $\tilde Z_n^{E\prime}$ and $\sqrt{n^2h} E_n$
-  are equal in distribution,
-  we have,
-  writing $E_n(\cW_\delta)$
-  for the vector $\big(E_n(w) : w \in \cW_\delta\big)$
-  and similarly for $k_h(W_{i j}, \cW_\delta)$,
+  since the conditional covariance structures of $\tilde Z_n^{E\prime}$ and
+  $\sqrt{n^2h} E_n$ are equal in distribution, we have, writing
+  $E_n(\cW_\delta)$ for the vector $\big(E_n(w) : w \in \cW_\delta\big)$ and
+  similarly for $k_h(W_{i j}, \cW_\delta)$,
   %
   \begin{align*}
     \tilde\Sigma^E_{n,\delta}
@@ -18920,9 +18732,7 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
     + \frac{\delta_n \sqrt{\log n}}{h}.
   \end{align*}
   %
-  Setting
-  $\delta_n = h \left( \frac{\log n}{n} \right)^{1/6}$
-  gives
+  Setting $\delta_n = h \left( \frac{\log n}{n} \right)^{1/6}$ gives
   %
   \begin{align*}
     \E\left[
@@ -18958,12 +18768,10 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   be the strong approximation for $L_n$
   derived in Lemma~\ref{lem:kernel_app_strong_approx_Ln}.
   Let $\big(\bA_n'', \bV_n'', E_n'', \tilde Z_n^{E\dprime}\big)$
-  and
-  $\big(\bA_n''', \bV_n''', \tilde Z_n^{E\tprime}, Z_n^{E\tprime}\big)$
-  be the conditional and unconditional strong approximations for $E_n$
-  given in Lemmas~\ref{lem:kernel_app_conditional_strong_approx_En}
-  and \ref{lem:kernel_app_unconditional_strong_approx_En}
-  respectively.
+  and $\big(\bA_n''', \bV_n''', \tilde Z_n^{E\tprime}, Z_n^{E\tprime}\big)$ be
+  the conditional and unconditional strong approximations for $E_n$ given in
+  Lemmas~\ref{lem:kernel_app_conditional_strong_approx_En} and
+  \ref{lem:kernel_app_unconditional_strong_approx_En} respectively.
   The first step is to define copies of these variables
   and processes on the same probability space.
   This is achieved by applying the
@@ -19473,9 +19281,8 @@ Lemma~\ref{lem:kernel_app_neyman_pearson_bernoulli}.
   To bound the supremum on the right hand side,
   apply the Gaussian process maximal inequality from
   Lemma~\ref{lem:kernel_app_gaussian_process_maximal}
-  with
-  $\sigma \leq 1$ and
-  $N(\varepsilon, \cW, \rho) \lesssim n^2 h^{-2} \varepsilon^{-2}$:
+  with $\sigma \leq 1$ and $N(\varepsilon, \cW, \rho) \lesssim n^2 h^{-2}
+  \varepsilon^{-2}$:
   %
   \begin{align*}
     \E\left[
@@ -20405,11 +20212,8 @@ Theorem~3.3 in \citet{gine2000exponential}.
   are conditionally mean-zero
   and conditionally independent,
   as the only randomness is from $\bV_n$.
-  Also
-  $\Var[k_{i j} \mid \bA_n] \lesssim \sigma^2 := 1/h$
-  and
-  $|k_{i j}| \lesssim M := 1/h$
-  uniformly.
+  Also $\Var[k_{i j} \mid \bA_n] \lesssim \sigma^2 := 1/h$ and $|k_{i j}|
+  \lesssim M := 1/h$ uniformly.
   The same is true for $k_{i j}'$.
   Thus by Lemma~\ref{lem:kernel_app_dyadic_concentration}
   for some universal constant $C_1 > 0$:
@@ -20844,9 +20648,8 @@ Theorem~3.3 in \citet{gine2000exponential}.
   %
   Therefore, since $\sqrt{\Sigma_n(w,w)} \gtrsim \sqrt{n^2h}$
   and $|S_{i j r}| \lesssim h^{-2}$,
-  using
-  $\frac{a}{\sqrt b} - \frac{c}{\sqrt d}
-  = \frac{a-c}{\sqrt b} + c \frac{d-b}{\sqrt{b d} \sqrt{b+d}}$,
+  using $\frac{a}{\sqrt b} - \frac{c}{\sqrt d} = \frac{a-c}{\sqrt b} + c
+  \frac{d-b}{\sqrt{b d} \sqrt{b+d}}$,
   %
   \begin{align*}
     &\sup_{|w_1-w_2| \leq \delta_n}
@@ -21683,8 +21486,8 @@ Theorem~3.3 in \citet{gine2000exponential}.
     \frac{1}{\Dl + 1/\sqrt{n h}}.
   \end{align*}
   %
-  Therefore
-  $\Delta \lesssim_\P \sqrt{\frac{\log n}{n}} \frac{1}{\Dl + 1/\sqrt{n h}}$.
+  Therefore $\Delta \lesssim_\P \sqrt{\frac{\log n}{n}} \frac{1}{\Dl + 1/\sqrt{n
+  h}}$.
 
   \proofparagraph{Gaussian comparison on a mesh}
 
@@ -21781,10 +21584,8 @@ Theorem~3.3 in \citet{gine2000exponential}.
     n^{-1} h^{-3} |w-w'|.
   \end{align*}
   %
-  Taking
-  $\delta_n \leq n^{-2} h^2$,
-  Lemma~\ref{lem:kernel_app_variance_estimator_bounds}
-  gives
+  Taking $\delta_n \leq n^{-2} h^2$,
+  Lemma~\ref{lem:kernel_app_variance_estimator_bounds} gives
   %
   \begin{align*}
     \inf_{|w-w'| \leq \delta_n}
@@ -22693,11 +22494,8 @@ Theorem~3.3 in \citet{gine2000exponential}.
 
 \begin{proof}[Lemma~\ref{lem:kernel_app_counterfactual_bias}]
 
-  Writing
-  $k_{i j} = k_h(W_{i j}^1, w)$,
-  $\psi_i = \psi(X_i^1)$,
-  $\hat\psi_i = \hat\psi(X_i^1)$,
-  and $\kappa_{i j} = \kappa(X_i^0, X_i^1, X_j^1)$,
+  Writing $k_{i j} = k_h(W_{i j}^1, w)$, $\psi_i = \psi(X_i^1)$, $\hat\psi_i =
+  \hat\psi(X_i^1)$, and $\kappa_{i j} = \kappa(X_i^0, X_i^1, X_j^1)$,
   %
   \begin{align*}
     \E\big[\hat f_W^{1 \triangleright 0}(w)\big]
@@ -22846,8 +22644,7 @@ Theorem~3.3 in \citet{gine2000exponential}.
   \begin{align*}
     \hat f_W^{1 \triangleright 0}(w)
     &=
-    u
-    + \frac{3}{n}
+    u + \frac{3}{n}
     \sum_{i=1}^n
     u_i
     + \frac{6}{n(n-1)}
@@ -22916,18 +22713,13 @@ Theorem~3.3 in \citet{gine2000exponential}.
   Let $\gamma: \cX \times \cX \to \{1, \ldots, |\cX|^2\}$
   be a bijection and
   define $\logistic(x) = \frac{1}{1+e^{-x}}$.
-  Let
-  $\tilde A_i = \logistic(A_i^1) + \gamma(X_i^0, X_i^1)$
-  so that
-  $A_i^1 = \logistic^{-1}\big(\tilde A_i
-  - \lfloor \tilde A_i \rfloor\big)$
-  and
-  $(X_i^0, X_i^1) = \gamma^{-1}(\lfloor \tilde A_i \rfloor)$.
-  Thus
-  $l_i^{1 \triangleright 0}(w)$ is a bounded-variation function
-  of $\tilde A_i$, uniformly in $w$, and so as in
-  Lemma~\ref{lem:kernel_app_strong_approx_Ln} we have that
-  on an appropriately enlarged probability space,
+  Let $\tilde A_i = \logistic(A_i^1) + \gamma(X_i^0, X_i^1)$ so that $A_i^1 =
+  \logistic^{-1}\big(\tilde A_i - \lfloor \tilde A_i \rfloor\big)$ and $(X_i^0,
+  X_i^1) = \gamma^{-1}(\lfloor \tilde A_i \rfloor)$.
+  Thus $l_i^{1 \triangleright 0}(w)$ is a bounded-variation function of $\tilde
+  A_i$, uniformly in $w$, and so as in
+  Lemma~\ref{lem:kernel_app_strong_approx_Ln} we have that on an appropriately
+  enlarged probability space,
   %
   \begin{align*}
     \E\left[
@@ -23533,8 +23325,7 @@ places throughout the analysis.
 
 We provide an $\ell^p$-norm tail probability bound for Gaussian variables in
 Lemma~\ref{lem:yurinskii_app_gaussian_pnorm}, motivating the definition of the
-term
-$\phi_p(d)$.
+term $\phi_p(d)$.
 
 \begin{lemma}[Gaussian \texorpdfstring{$\ell^p$}{lp}-norm bound]%
   \label{lem:yurinskii_app_gaussian_pnorm}
@@ -23816,8 +23607,7 @@ variables.
 
 \begin{proof}[Lemma~\ref{lem:yurinskii_app_variance_mixing}]
 
-  Define
-  $\alpha^{-1}(t) =
+  Define $\alpha^{-1}(t) =
   \inf\{j \in \N : \alpha(j) \leq t\}$
   and $Q_i(t) = \inf\{s \in \R : \P(|X_i| > s) \leq t\}$.
   By Corollary~1.1 in \citet{rio2017asymptotic}
@@ -24148,8 +23938,7 @@ martingale, but which has an $\cH_0$-measurable terminal quadratic variation.
   $\tfrac{1}{\sqrt{m}}\sum_{i=n+1}^m H_\tau^{1/2} Z_i$
   is distributed as $H_\tau^{1/2}Z$,
   where $Z$ is an independent standard Gaussian variable.
-  Also
-  $\P\big( \| H_\tau^{1/2} Z \|_p > \eta \big)
+  Also $\P\big( \| H_\tau^{1/2} Z \|_p > \eta \big)
   \leq \P\big( \| H_n^{1/2} Z \|_p > \eta,\, \Omega \preceq M)
   + \P\big( \Omega \npreceq M \big)$,
   so
@@ -24185,8 +23974,7 @@ martingale, but which has an $\cH_0$-measurable terminal quadratic variation.
     \mid \cH_0 \Big]
   \end{align*}
   %
-  where
-  $Y_i = \sum_{j=1}^{i-1} \tilde X_j + \sum_{j=i+1}^{n+m} \check X_j$.
+  where $Y_i = \sum_{j=1}^{i-1} \tilde X_j + \sum_{j=i+1}^{n+m} \check X_j$.
   By Lemma~\ref{lem:yurinskii_app_smooth_approximation} we have for $k \geq 0$
   %
   \begin{align*}
@@ -24763,9 +24551,7 @@ user-friendly version as Proposition~\ref{pro:yurinskii_sa_simplified}.
   \proofparagraph{bounding $\delta(M, \eta)$}
 
   By Markov's inequality and Lemma~\ref{lem:yurinskii_app_gaussian_pnorm},
-  using
-  $\max_j |M_{j j}| \leq \|M\|_2$
-  for $M \succeq 0$,
+  using $\max_j |M_{j j}| \leq \|M\|_2$ for $M \succeq 0$,
   %
   \begin{align*}
     \delta_{p}(M,\eta)
@@ -25102,8 +24888,7 @@ the same bound holds for $T(x)$ with
     - h I(x) I(x')
   \end{align*}
   %
-  where
-  $I(x) = \frac{1}{\sqrt 2 \pi} \int_{-x/h}^{(1-x)/h} e^{-t^2/2} \diff t$.
+  where $I(x) = \frac{1}{\sqrt 2 \pi} \int_{-x/h}^{(1-x)/h} e^{-t^2/2} \diff t$.
   Completing the square and a substitution gives
   %
   \begin{align*}
@@ -25159,8 +24944,7 @@ the same bound holds for $T(x)$ with
   \exp \left( - \frac{1}{4} \left( \frac{x_i-x_j}{h} \right)^2 \right)$.
   By \citet[Proposition~2.4,
   Proposition~2.5, and Equation~2.10]{baxter1994norm},
-  with
-  $\cB_k = \big\{b \in \R^\Z :
+  with $\cB_k = \big\{b \in \R^\Z :
   \sum_{i \in \Z} \I\{b_i \neq 0\} \leq k \big\}$,
   %
   \begin{align*}
@@ -26029,8 +25813,7 @@ the same bound holds for $T(x)$ with
   for all $x \in \cW$,
   and hence is bounded below uniformly in $w \in \cW$
   by a positive constant.
-  Therefore
-  $\sup_{w \in \cW} \|H(w)^{-1}\|_2 \lesssim 1/n$.
+  Therefore $\sup_{w \in \cW} \|H(w)^{-1}\|_2 \lesssim 1/n$.
 
   \proofparagraph{bounding $\beta_\delta$}
 
@@ -26121,8 +25904,7 @@ the same bound holds for $T(x)$ with
     n^{-3} \delta^{-m} h^{-2m} \log n.
   \end{align*}
   %
-  Let
-  $V_i(\cF_\delta) =
+  Let $V_i(\cF_\delta) =
   \E\big[\cF_\delta(W_i, \tilde\varepsilon_i)
     \cF_\delta(W_i, \tilde\varepsilon_i)^\T
   \mid \cH_{i-1}\big]$
@@ -26131,8 +25913,7 @@ the same bound holds for $T(x)$ with
   Note that
   $V_i(f,f) = \E[f(W_i, \tilde\varepsilon_i)^2 \mid W_i]
   \lesssim n^{-2} h^{-2m}$
-  and
-  $\E[V_i(f,f)] = \E[f(W_i, \tilde\varepsilon_i)^2]
+  and $\E[V_i(f,f)] = \E[f(W_i, \tilde\varepsilon_i)^2]
   \lesssim n^{-2} h^{-m}$.
   Thus by Lemma~\ref{lem:yurinskii_app_gaussian_useful},
   %
@@ -26478,8 +26259,7 @@ the same bound holds for $T(x)$ with
   \end{align*}
   %
   so we take $L = \frac{1}{\sqrt{n} h^{m/2+1}}$.
-  Noting
-  $\psi^{-1}(t) = \sqrt{\log(1+t)} + \frac{\log(1+t)}{2\sqrt{\log n}}$
+  Noting $\psi^{-1}(t) = \sqrt{\log(1+t)} + \frac{\log(1+t)}{2\sqrt{\log n}}$
   and $N_\delta \lesssim \delta^{-m}$,
   %
   \begin{align*}
@@ -26925,10 +26705,8 @@ the same bound holds for $T(x)$ with
     \Bigg\|_2.
   \end{align*}
   %
-  Write
-  $\tilde u_{i j}(w) = K_h(W_i-w)p_h(W_i-w)_j$
-  and note $|\tilde u_{i j}(w)| \lesssim h^{-m}$
-  and $\E[\tilde u_{i j}(w)] \lesssim 1$, so
+  Write $\tilde u_{i j}(w) = K_h(W_i-w)p_h(W_i-w)_j$ and note $|\tilde u_{i
+  j}(w)| \lesssim h^{-m}$ and $\E[\tilde u_{i j}(w)] \lesssim 1$, so
   %
   \begin{align*}
     \P\left(
@@ -26963,8 +26741,7 @@ the same bound holds for $T(x)$ with
     n.
   \end{align*}
   %
-  Therefore
-  $\sup_{w\in\cW} |\Bias(w)|
+  Therefore $\sup_{w\in\cW} |\Bias(w)|
   \lesssim_\P n h^\gamma / n
   \lesssim_\P h^\gamma$.
 
@@ -27069,9 +26846,8 @@ the Gaussian multiplier bootstrap, enabling valid
 resampling-based inference using
 the resulting conditional Gaussian distribution. Finally, in
 Section~\ref{sec:yurinskii_app_lp} we provide an example application:
-distributional
-approximation for $\ell^p$-norms of high-dimensional martingale vectors
-in Kolmogorov--Smirnov distance, relying on some recent results
+distributional approximation for $\ell^p$-norms of high-dimensional martingale
+vectors in Kolmogorov--Smirnov distance, relying on some recent results
 concerning Gaussian perimetric inequalities
 \citep{nazarov2003maximal,kozbur2021dimension,
 giessing2023anti,chernozhukov2017detailed}.
@@ -27174,8 +26950,8 @@ Corollary~\ref{cor:yurinskii_sa_martingale}:
 
 The term $\Delta_p(\cA, \eta)$
 in \eqref{eq:yurinskii_app_high_dim_clt} is a Gaussian anti-concentration
-quantity
-so it depends on the law of $S$ only through the covariance matrix $\Sigma$.
+quantity so it depends on the law of $S$ only through the covariance matrix
+$\Sigma$.
 A few results are available in the literature
 for bounding this term.
 For instance, with
@@ -27352,9 +27128,8 @@ thereof. In general, whenever $\hat \Sigma$ does not depend on unknown
 quantities, one can sample from the law of $\hat T = \hat\Sigma^{1/2} Z$
 conditional on $\bX$ to approximate the distribution of $S$.
 Proposition~\ref{pro:yurinskii_app_bootstrap} verifies that this Gaussian
-multiplier
-bootstrap approach is valid whenever $\hat\Sigma$ and $\Sigma$ are sufficiently
-close. To this end, Theorem~X.1.1 in \citet{bhatia1997matrix} gives
+multiplier bootstrap approach is valid whenever $\hat\Sigma$ and $\Sigma$ are
+sufficiently close. To this end, Theorem~X.1.1 in \citet{bhatia1997matrix} gives
 $\big\|\hat\Sigma^{1/2} - \Sigma^{1/2}\big\|_2
 \leq \big\|\hat\Sigma - \Sigma\big\|_2^{1/2}$
 and Problem~X.5.5 in the same gives
@@ -27506,8 +27281,7 @@ preceding discussion regarding methods for bounding this object.
   the object of interest $\|S\|_p$ is a
   one-dimensional functional of the high-dimensional martingale;
   contrast this with the more general Proposition~\ref{pro:yurinskii_app_clt}
-  which
-  directly considers the $d$-dimensional random vector $S$.
+  which directly considers the $d$-dimensional random vector $S$.
   As such, our coupling-based approach may be improved in certain settings
   by applying a more carefully tailored smoothing argument.
   For example, \citet{belloni2018high}

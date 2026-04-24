@@ -375,6 +375,33 @@ mod tests {
     }
 
     #[test]
+    fn default_wrapping_reflows_existing_prose_line_breaks() {
+        let input = "We distinguish that common-drive mechanism from a second pairwise failure mode.\nA (i)~\\emph{common-drive-confounded} edge is a false positive because the\ncandidate\nsource is a proxy for an omitted shared parent, so the edge should disappear\nonce that parent is included in the baseline. A\n(ii)~\\emph{dynamical-similarity-induced} edge is a false positive because the\ndelay\nembeddings of two observed signals occupy similar state-space directions, so\none signal can improve pairwise fit by geometric redundancy even when it is not\na missing-parent proxy.\n";
+        let expected = "We distinguish that common-drive mechanism from a second pairwise failure mode.\nA (i)~\\emph{common-drive-confounded} edge is a false positive because the\ncandidate source is a proxy for an omitted shared parent, so the edge should\ndisappear once that parent is included in the baseline. A\n(ii)~\\emph{dynamical-similarity-induced} edge is a false positive because the\ndelay embeddings of two observed signals occupy similar state-space directions,\nso one signal can improve pairwise fit by geometric redundancy even when it is\nnot a missing-parent proxy.\n";
+
+        let args = Args::default();
+        let mut logs = Vec::<Log>::new();
+
+        assert_eq!(
+            format_file(input, &PathBuf::from("input.tex"), &args, &mut logs),
+            expected
+        );
+    }
+
+    #[test]
+    fn default_wrapping_preserves_existing_prose_without_orphans() {
+        let input = "This paragraph is already wrapped across two reasonably sized prose lines.\nNeither line contains a stranded single word that should be repaired.\n";
+
+        let args = Args::default();
+        let mut logs = Vec::<Log>::new();
+
+        assert_eq!(
+            format_file(input, &PathBuf::from("input.tex"), &args, &mut logs),
+            input
+        );
+    }
+
+    #[test]
     fn optimal_wrapping_uses_last_legal_break_before_short_tail() {
         let line = "it induces. The relevant object is the full prompt-conditioned distribution over mechanically evaluated output semantics.";
         let args = Args::default();

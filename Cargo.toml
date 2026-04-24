@@ -1,6 +1,6 @@
 [package]
 name = "tex-fmt"
-version = "0.5.8"
+version = "0.5.9"
 authors = ["William George Underwood"]
 license = "MIT"
 repository = "https://github.com/WGUNDERWOOD/tex-fmt"
