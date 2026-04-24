@@ -134,7 +134,7 @@ impl fmt::Display for TabChar {
 /// Strategy used to choose line wrapping points
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum WrapStrategy {
-    /// Choose wrap points that balance all output lines
+    /// Choose wrap points that fill non-final lines using lookahead
     Balanced,
     /// Choose the first available wrap point after `wrapmin`
     Greedy,

@@ -23,8 +23,10 @@ pub fn needs_wrap(
     args: &Args,
     state: &State,
 ) -> bool {
+    let visible_line_length =
+        line.trim_end_matches(char::is_whitespace).chars().count();
     args.wrap
-        && (line.chars().count() + indent_length > args.wraplen)
+        && (visible_line_length + indent_length > args.wraplen)
         && !(state.table.visual && args.format_tables)
 }
 
@@ -75,8 +77,8 @@ struct WrapPoint {
     wrap_char: char,
 }
 
-type BalancedPlan = Option<(i128, Vec<usize>)>;
-type BalancedMemo = HashMap<(usize, usize), BalancedPlan>;
+type WrapPlan = Option<(usize, Vec<usize>)>;
+type WrapMemo = HashMap<usize, WrapPlan>;
 
 fn find_valid_wrap_points(
     line: &str,
@@ -150,38 +152,25 @@ fn wrapped_segment_len(start_char: usize, point: WrapPoint) -> usize {
     }
 }
 
-fn target_cost(
-    segment_len: usize,
-    total_len: usize,
-    total_lines: usize,
-) -> i128 {
-    let diff = (segment_len as i128 * total_lines as i128) - total_len as i128;
-    diff * diff
+fn line_badness(segment_len: usize, max_len: usize) -> usize {
+    max_len - segment_len
 }
 
-#[allow(clippy::too_many_arguments)]
-fn find_balanced_plan_for_lines(
+fn find_optimal_wrap_plan(
     start_char: usize,
-    remaining_lines: usize,
-    total_lines: usize,
     char_len: usize,
     max_len: usize,
     wrap_points: &[WrapPoint],
-    memo: &mut BalancedMemo,
-) -> Option<(i128, Vec<usize>)> {
-    if let Some(plan) = memo.get(&(start_char, remaining_lines)) {
+    memo: &mut WrapMemo,
+) -> Option<(usize, Vec<usize>)> {
+    if let Some(plan) = memo.get(&start_char) {
         return plan.clone();
     }
 
-    let plan = if remaining_lines == 1 {
-        let segment_len = char_len - start_char;
-        if segment_len <= max_len {
-            Some((target_cost(segment_len, char_len, total_lines), Vec::new()))
-        } else {
-            None
-        }
+    let plan = if char_len - start_char <= max_len {
+        Some((0, Vec::new()))
     } else {
-        let mut best: Option<(i128, Vec<usize>)> = None;
+        let mut best: Option<(usize, usize, Vec<usize>)> = None;
         let first_point =
             wrap_points.partition_point(|point| point.char_index < start_char);
         for (i, point) in wrap_points.iter().enumerate().skip(first_point) {
@@ -194,35 +183,38 @@ fn find_balanced_plan_for_lines(
             }
 
             let next_start = point.char_index + 1;
-            if let Some((remaining_cost, remaining_breaks)) =
-                find_balanced_plan_for_lines(
+            if let Some((remaining_badness, remaining_breaks)) =
+                find_optimal_wrap_plan(
                     next_start,
-                    remaining_lines - 1,
-                    total_lines,
                     char_len,
                     max_len,
                     wrap_points,
                     memo,
                 )
             {
-                let cost = target_cost(segment_len, char_len, total_lines)
-                    + remaining_cost;
+                let badness =
+                    line_badness(segment_len, max_len) + remaining_badness;
                 let mut breaks = vec![i];
                 breaks.extend(remaining_breaks);
-                if best.as_ref().is_none_or(|(best_cost, _)| cost < *best_cost)
-                {
-                    best = Some((cost, breaks));
+                if best.as_ref().is_none_or(
+                    |(best_badness, best_segment_len, _)| {
+                        badness < *best_badness
+                            || (badness == *best_badness
+                                && segment_len > *best_segment_len)
+                    },
+                ) {
+                    best = Some((badness, segment_len, breaks));
                 }
             }
         }
-        best
+        best.map(|(badness, _, breaks)| (badness, breaks))
     };
 
-    memo.insert((start_char, remaining_lines), plan.clone());
+    memo.insert(start_char, plan.clone());
     plan
 }
 
-fn find_balanced_wrap_point(
+fn find_optimal_wrap_point(
     line: &str,
     indent_length: usize,
     args: &Args,
@@ -239,23 +231,10 @@ fn find_balanced_wrap_point(
         return None;
     }
 
-    let min_lines = char_len.div_ceil(max_len).max(2);
-    for total_lines in min_lines..=wrap_points.len() + 1 {
-        let mut memo = HashMap::new();
-        if let Some((_, breaks)) = find_balanced_plan_for_lines(
-            0,
-            total_lines,
-            total_lines,
-            char_len,
-            max_len,
-            &wrap_points,
-            &mut memo,
-        ) {
-            return breaks.first().map(|i| wrap_points[*i].byte_index);
-        }
-    }
-
-    None
+    let mut memo = HashMap::new();
+    let (_, breaks) =
+        find_optimal_wrap_plan(0, char_len, max_len, &wrap_points, &mut memo)?;
+    breaks.first().map(|i| wrap_points[*i].byte_index)
 }
 
 /// Find the best place to break a long line.
@@ -268,10 +247,9 @@ fn find_wrap_point(
 ) -> Option<usize> {
     match args.wrap_strategy {
         WrapStrategy::Balanced => {
-            find_balanced_wrap_point(line, indent_length, args, pattern)
-                .or_else(|| {
-                    find_greedy_wrap_point(line, indent_length, args, pattern)
-                })
+            find_optimal_wrap_point(line, indent_length, args, pattern).or_else(
+                || find_greedy_wrap_point(line, indent_length, args, pattern),
+            )
         }
         WrapStrategy::Greedy => {
             find_greedy_wrap_point(line, indent_length, args, pattern)
@@ -355,9 +333,65 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
-    fn default_wrapping_balances_paragraph_lines() {
+    fn default_wrapping_optimizes_nonfinal_lines() {
         let input = "This framing separates semantic stability from raw one-shot accuracy. A model can answer many prompts correctly while still being highly unstable under paraphrase. Conversely, a model can fail often while still preserving a nontrivial within-class versus between-class gap in the semantic distributions it induces. The relevant object is the full prompt-conditioned distribution over mechanically evaluated output semantics.\n";
-        let expected = "This framing separates semantic stability from raw one-shot accuracy.\nA model can answer many prompts correctly while still being highly\nunstable under paraphrase. Conversely, a model can fail often while\nstill preserving a nontrivial within-class versus between-class gap in\nthe semantic distributions it induces. The relevant object is the full\nprompt-conditioned distribution over mechanically evaluated output semantics.\n";
+        let expected = "This framing separates semantic stability from raw one-shot accuracy. A model\ncan answer many prompts correctly while still being highly unstable under\nparaphrase. Conversely, a model can fail often while still preserving a\nnontrivial within-class versus between-class gap in the semantic distributions\nit induces. The relevant object is the full prompt-conditioned distribution over\nmechanically evaluated output semantics.\n";
+
+        let args = Args::default();
+        let mut logs = Vec::<Log>::new();
+
+        assert_eq!(
+            format_file(input, &PathBuf::from("input.tex"), &args, &mut logs),
+            expected
+        );
+    }
+
+    #[test]
+    fn default_wrapping_avoids_short_intermediate_lines() {
+        let input = "A (i)~\\emph{common-drive-confounded} edge is a false positive because the candidate source is a proxy for an omitted shared parent, so the edge should disappear once that parent is included in the baseline.\n";
+        let expected = "A (i)~\\emph{common-drive-confounded} edge is a false positive because the\ncandidate source is a proxy for an omitted shared parent, so the edge should\ndisappear once that parent is included in the baseline.\n";
+
+        let args = Args::default();
+        let mut logs = Vec::<Log>::new();
+
+        assert_eq!(
+            format_file(input, &PathBuf::from("input.tex"), &args, &mut logs),
+            expected
+        );
+    }
+
+    #[test]
+    fn default_wrapping_keeps_sentence_boundary_context_stable() {
+        let input = "A (i)~\\emph{common-drive-confounded} edge is a false positive because the candidate source is a proxy for an omitted shared parent, so the edge should disappear once that parent is included in the baseline. A (ii)~\\emph{dynamical-similarity-induced} edge is a false positive because the delay embeddings of two observed signals occupy similar state-space directions.\n";
+        let expected = "A (i)~\\emph{common-drive-confounded} edge is a false positive because the\ncandidate source is a proxy for an omitted shared parent, so the edge should\ndisappear once that parent is included in the baseline. A\n(ii)~\\emph{dynamical-similarity-induced} edge is a false positive because the\ndelay embeddings of two observed signals occupy similar state-space directions.\n";
+
+        let args = Args::default();
+        let mut logs = Vec::<Log>::new();
+
+        assert_eq!(
+            format_file(input, &PathBuf::from("input.tex"), &args, &mut logs),
+            expected
+        );
+    }
+
+    #[test]
+    fn optimal_wrapping_uses_last_legal_break_before_short_tail() {
+        let line = "it induces. The relevant object is the full prompt-conditioned distribution over mechanically evaluated output semantics.";
+        let args = Args::default();
+        let pattern = Pattern::new(line);
+        let wrap_point = find_optimal_wrap_point(line, 0, &args, &pattern)
+            .expect("line should wrap");
+
+        assert_eq!(
+            line[..=wrap_point].trim_end(),
+            "it induces. The relevant object is the full prompt-conditioned distribution over"
+        );
+    }
+
+    #[test]
+    fn default_wrapping_accounts_for_continuation_indent() {
+        let input = "((This line is too long because it has more than eighty characters inside it. Therefore it should be split. It also needs splitting onto multiple lines, and the middle lines should be doubly indented due to these brackets.))\n";
+        let expected = "((This line is too long because it has more than eighty characters inside it.\n    Therefore it should be split. It also needs splitting onto multiple lines,\nand the middle lines should be doubly indented due to these brackets.))\n";
 
         let args = Args::default();
         let mut logs = Vec::<Log>::new();

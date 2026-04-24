@@ -273,7 +273,7 @@ tex-fmt can be run before every git commit using
 ```yaml
 repos:
   - repo: https://github.com/WGUNDERWOOD/tex-fmt
-    rev: v0.5.7
+    rev: v0.5.8
     hooks:
       - id: tex-fmt
 ```
@@ -374,6 +374,10 @@ The following arguments can be passed on the command line.
 | `--args`               |       |         | View arguments passed to tex-fmt |
 | `--help`               | `-h`  |         | Print help |
 | `--version`            | `-V`  |         | Print version |
+
+The `balanced` wrap strategy uses line-break planning to fill non-final
+lines while avoiding short intermediate lines. The `greedy` strategy
+preserves the legacy `wrapmin`-based behavior.
 
 ### Configuration file options
 

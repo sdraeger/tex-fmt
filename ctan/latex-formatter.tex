@@ -3,7 +3,7 @@
 \usepackage{float}
 \usepackage[a4paper,margin=1.2in]{geometry}
 
-\title{The latex-formatter CTAN package \\ v0.5.7}
+\title{The latex-formatter CTAN package \\ v0.5.8}
 \author{William G.\ Underwood}
 
 \begin{document}
@@ -258,6 +258,10 @@ The following arguments can be passed on the command line.
     \end{tabular}
   \end{center}
 \end{table}
+
+The \texttt{balanced} wrap strategy uses line-break planning to fill non-final
+lines while avoiding short intermediate lines. The \texttt{greedy} strategy
+preserves the legacy \texttt{wrapmin}-based behavior.
 
 \subsection{Configuration file options}
 

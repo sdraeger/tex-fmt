@@ -1,5 +1,6 @@
-# v0.5.7
+# v0.5.8
 
+- Improve balanced wrapping with line-break planning that fills non-final lines and avoids short intermediate lines.
 - Add `--wrap-strategy` with balanced wrapping as the default and greedy wrapping as the legacy option.
 - New `--format-tables` option to align ampersands and insert line breaks in table environments.
 - Now `" "` must be explicitly passed to `wrap-chars` to enable line wrapping at spaces.
