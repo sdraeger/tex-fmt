@@ -190,6 +190,7 @@ tex-fmt --recursive                # recursively format files in current directo
 tex-fmt --recursive dir/           # recursively format files in dir
 tex-fmt --fail-on-change file.tex  # format file.tex and return exit-code 1 if overwritten
 tex-fmt --nowrap file.tex          # do not wrap long lines
+tex-fmt --wrap-strategy greedy     # use legacy greedy line wrapping
 tex-fmt --format-tables file.tex   # format tables (align ampersands)
 tex-fmt --stdin                    # read from stdin and print to stdout
 tex-fmt --help                     # view help information
@@ -358,6 +359,7 @@ The following arguments can be passed on the command line.
 | `--recursive`          | `-r`  |         | Recursively search for files to format |
 | `--nowrap`             | `-n`  |         | Do not wrap long lines |
 | `--wraplen <N>`        | `-l`  | `80`    | Line length for wrapping |
+| `--wrap-strategy <STRATEGY>` | | `balanced` | Strategy for selecting wrap points (`balanced` or `greedy`) |
 | `--tabsize <N>`        | `-t`  | `2`     | Number of characters to use as tab size |
 | `--usetabs`            |       |         | Use tabs instead of spaces for indentation |
 | `--format-tables`      |       |         | Format tables |
@@ -385,7 +387,8 @@ The first example in each row is the default value.
 | `fail-on-change` | bool     | `false`                | Fail if files are modified |
 | `wrap`           | bool     | `true`                 | Wrap long lines |
 | `wraplen`        | int      | `80`, `100`            | Line length for wrapping |
-| `wrapmin`        | int      | `70`, `90`             | Target minimum length for line wrapping |
+| `wrapmin`        | int      | `70`, `90`             | Target minimum length for greedy wrapping |
+| `wrap-strategy`  | str      | `"balanced"`, `"greedy"` | Strategy for selecting wrap points |
 | `tabsize`        | int      | `2`, `4`               | Number of characters to use as tab size |
 | `tabchar`        | str      | `"space"`, `"tab"`     | Character to use for indentation |
 | `format-tables`  | bool     | `false`                | Format tables |

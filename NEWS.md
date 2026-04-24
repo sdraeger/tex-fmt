@@ -1,5 +1,6 @@
 # v0.5.7
 
+- Add `--wrap-strategy` with balanced wrapping as the default and greedy wrapping as the legacy option.
 - New `--format-tables` option to align ampersands and insert line breaks in table environments.
 - Now `" "` must be explicitly passed to `wrap-chars` to enable line wrapping at spaces.
 - Allow for `\verb+...+` syntax.

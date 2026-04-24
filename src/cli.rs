@@ -1,6 +1,6 @@
 //! Functionality to parse CLI arguments
 
-use crate::args::{OptionArgs, TabChar};
+use crate::args::{OptionArgs, TabChar, WrapStrategy};
 use clap::ArgMatches;
 use clap_complete::{generate, Shell};
 use clap_mangen::Man;
@@ -70,6 +70,9 @@ pub fn get_cli_args(matches: Option<ArgMatches>) -> OptionArgs {
         wrap,
         wraplen: arg_matches.get_one::<usize>("wraplen").copied(),
         wrapmin: None,
+        wrap_strategy: arg_matches
+            .get_one::<String>("wrap-strategy")
+            .map(|s| s.parse::<WrapStrategy>().unwrap()),
         tabsize: arg_matches.get_one::<u8>("tabsize").copied(),
         tabchar,
         stdin: get_flag(&arg_matches, "stdin"),

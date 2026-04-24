@@ -10,6 +10,7 @@ use log::LevelFilter;
 use merge::Merge;
 use std::fmt;
 use std::path::PathBuf;
+use std::str::FromStr;
 
 const DISPLAY_HEADER_WIDTH: usize = 24;
 
@@ -27,8 +28,10 @@ pub struct Args {
     pub wrap: bool,
     /// Maximum allowed line length
     pub wraplen: usize,
-    /// Wrap lines longer than this
+    /// Target minimum line length for greedy wrapping
     pub wrapmin: usize,
+    /// Strategy used to select wrap points
+    pub wrap_strategy: WrapStrategy,
     /// Number of characters to use as tab size
     pub tabsize: u8,
     /// Characters to use for indentation
@@ -73,6 +76,8 @@ pub struct OptionArgs {
     pub wraplen: Option<usize>,
     #[merge(strategy= merge::option::overwrite_none)]
     pub wrapmin: Option<usize>,
+    #[merge(strategy= merge::option::overwrite_none)]
+    pub wrap_strategy: Option<WrapStrategy>,
     #[merge(strategy= merge::option::overwrite_none)]
     pub tabsize: Option<u8>,
     #[merge(strategy= merge::option::overwrite_none)]
@@ -126,6 +131,38 @@ impl fmt::Display for TabChar {
     }
 }
 
+/// Strategy used to choose line wrapping points
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum WrapStrategy {
+    /// Choose wrap points that balance all output lines
+    Balanced,
+    /// Choose the first available wrap point after `wrapmin`
+    Greedy,
+}
+
+impl fmt::Display for WrapStrategy {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Self::Balanced => write!(f, "balanced"),
+            Self::Greedy => write!(f, "greedy"),
+        }
+    }
+}
+
+impl FromStr for WrapStrategy {
+    type Err = String;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "balanced" => Ok(Self::Balanced),
+            "greedy" => Ok(Self::Greedy),
+            _ => Err(format!(
+                "Unknown wrap strategy `{s}`. Expected `balanced` or `greedy`."
+            )),
+        }
+    }
+}
+
 impl Default for OptionArgs {
     fn default() -> Self {
         let lists = vec![
@@ -155,6 +192,7 @@ impl Default for OptionArgs {
             wrap: Some(true),
             wraplen: Some(80),
             wrapmin: None,
+            wrap_strategy: Some(WrapStrategy::Balanced),
             tabsize: Some(2),
             tabchar: Some(TabChar::Space),
             stdin: Some(false),
@@ -183,6 +221,7 @@ impl OptionArgs {
             wrap: None,
             wraplen: None,
             wrapmin: None,
+            wrap_strategy: None,
             tabsize: None,
             tabchar: None,
             stdin: None,
@@ -247,6 +286,7 @@ impl Args {
             wrap: args.wrap.unwrap(),
             wraplen: args.wraplen.unwrap(),
             wrapmin,
+            wrap_strategy: args.wrap_strategy.unwrap(),
             tabsize: args.tabsize.unwrap(),
             tabchar: args.tabchar.unwrap(),
             stdin: args.stdin.unwrap(),
@@ -397,6 +437,7 @@ impl fmt::Display for Args {
         display_arg_line(f, "wrap", &self.wrap.to_string())?;
         display_arg_line(f, "wraplen", &self.wraplen.to_string())?;
         display_arg_line(f, "wrapmin", &self.wrapmin.to_string())?;
+        display_arg_line(f, "wrap-strategy", &self.wrap_strategy.to_string())?;
         display_arg_line(f, "tabsize", &self.tabsize.to_string())?;
         display_arg_line(f, "tabchar", &self.tabchar.to_string())?;
         display_arg_line(f, "stdin", &self.stdin.to_string())?;
@@ -427,5 +468,34 @@ impl fmt::Display for Args {
 
         // Do not print `arguments` or `noconfig` fields
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::cli::{get_cli_args, get_cli_command};
+    use crate::config::get_config_args;
+
+    #[test]
+    fn parses_wrap_strategy_from_cli() {
+        let matches = get_cli_command()
+            .try_get_matches_from(["tex-fmt", "--wrap-strategy", "greedy"])
+            .unwrap();
+        let args = get_cli_args(Some(matches));
+
+        assert_eq!(args.wrap_strategy, Some(WrapStrategy::Greedy));
+    }
+
+    #[test]
+    fn parses_wrap_strategy_from_config() {
+        let config = Some((
+            PathBuf::from("tex-fmt.toml"),
+            String::from("tex-fmt.toml"),
+            String::from(r#"wrap-strategy = "greedy""#),
+        ));
+        let args = get_config_args(config).unwrap();
+
+        assert_eq!(args.wrap_strategy, Some(WrapStrategy::Greedy));
     }
 }

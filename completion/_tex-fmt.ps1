@@ -23,6 +23,7 @@ Register-ArgumentCompleter -Native -CommandName 'tex-fmt' -ScriptBlock {
         'tex-fmt' {
             [CompletionResult]::new('-l', '-l', [CompletionResultType]::ParameterName, 'Line length for wrapping [default: 80]')
             [CompletionResult]::new('--wraplen', '--wraplen', [CompletionResultType]::ParameterName, 'Line length for wrapping [default: 80]')
+            [CompletionResult]::new('--wrap-strategy', '--wrap-strategy', [CompletionResultType]::ParameterName, 'Strategy for selecting wrap points [default: balanced]')
             [CompletionResult]::new('-t', '-t', [CompletionResultType]::ParameterName, 'Number of characters to use as tab size [default: 2]')
             [CompletionResult]::new('--tabsize', '--tabsize', [CompletionResultType]::ParameterName, 'Number of characters to use as tab size [default: 2]')
             [CompletionResult]::new('--config', '--config', [CompletionResultType]::ParameterName, 'Path to config file')

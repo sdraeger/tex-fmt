@@ -44,6 +44,6 @@ pub fn main(text: &str, config: &str) -> JsValue {
 #[must_use]
 pub fn version() -> JsValue {
     let version = crate_version!();
-    let formatted_version = format!("v{}", version);
+    let formatted_version = format!("v{version}");
     JsValue::from_str(&formatted_version)
 }

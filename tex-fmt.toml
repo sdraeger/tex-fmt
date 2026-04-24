@@ -3,6 +3,7 @@ check = false
 print = false
 wrap = true
 wraplen = 80
+wrap-strategy = "balanced"
 tabsize = 2
 tabchar = "space"
 stdin = false

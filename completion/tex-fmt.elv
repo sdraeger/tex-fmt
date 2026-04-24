@@ -20,6 +20,7 @@ set edit:completion:arg-completer[tex-fmt] = {|@words|
         &'tex-fmt'= {
             cand -l 'Line length for wrapping [default: 80]'
             cand --wraplen 'Line length for wrapping [default: 80]'
+            cand --wrap-strategy 'Strategy for selecting wrap points [default: balanced]'
             cand -t 'Number of characters to use as tab size [default: 2]'
             cand --tabsize 'Number of characters to use as tab size [default: 2]'
             cand --config 'Path to config file'

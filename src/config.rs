@@ -1,6 +1,6 @@
 //! Read arguments from a config file
 
-use crate::args::{OptionArgs, TabChar};
+use crate::args::{OptionArgs, TabChar, WrapStrategy};
 use dirs::config_dir;
 use log::LevelFilter;
 use std::env::current_dir;
@@ -152,6 +152,9 @@ pub fn get_config_args(
         wrapmin: config
             .get("wrapmin")
             .map(|x| x.as_integer().unwrap().try_into().unwrap()),
+        wrap_strategy: config
+            .get("wrap-strategy")
+            .map(|x| x.as_str().unwrap().parse::<WrapStrategy>().unwrap()),
         tabsize: config
             .get("tabsize")
             .map(|x| x.as_integer().unwrap().try_into().unwrap()),

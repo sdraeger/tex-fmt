@@ -48,6 +48,13 @@ pub fn get_cli_command() -> Command {
                 .help("Line length for wrapping [default: 80]"),
         )
         .arg(
+            Arg::new("wrap-strategy")
+                .long("wrap-strategy")
+                .value_name("STRATEGY")
+                .value_parser(["balanced", "greedy"])
+                .help("Strategy for selecting wrap points [default: balanced]"),
+        )
+        .arg(
             Arg::new("tabsize")
                 .short('t')
                 .long("tabsize")

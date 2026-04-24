@@ -1,4 +1,6 @@
 complete -c tex-fmt -s l -l wraplen -d 'Line length for wrapping [default: 80]' -r
+complete -c tex-fmt -l wrap-strategy -d 'Strategy for selecting wrap points [default: balanced]' -r -f -a "balanced\t''
+greedy\t''"
 complete -c tex-fmt -s t -l tabsize -d 'Number of characters to use as tab size [default: 2]' -r
 complete -c tex-fmt -l config -d 'Path to config file' -r -F
 complete -c tex-fmt -l completion -d 'Generate shell completion script' -r -f -a "bash\t''

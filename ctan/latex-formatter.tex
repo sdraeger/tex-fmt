@@ -97,6 +97,7 @@ tex-fmt --recursive dir/           # recursively format files in dir
 tex-fmt --fail-on-change file.tex  # format file.tex and return exit-code 1
                                    # if overwritten
 tex-fmt --nowrap file.tex          # do not wrap long lines
+tex-fmt --wrap-strategy greedy     # use legacy greedy line wrapping
 tex-fmt --format-tables file.tex   # format tables (align ampersands)
 tex-fmt --stdin                    # read from stdin and print to stdout
 tex-fmt --help                     # view help information
@@ -138,6 +139,7 @@ check = false
 print = false
 wrap = true
 wraplen = 80
+wrap-strategy = "balanced"
 tabsize = 2
 tabchar = "space"
 stdin = false
@@ -228,6 +230,8 @@ The following arguments can be passed on the command line.
       wrap long lines \\
       \texttt{--wraplen <N>}        & \texttt{-l}  & \texttt{80}    &
       Line length for wrapping \\
+      \texttt{--wrap-strategy <STRATEGY>} &       & \texttt{balanced}
+      & Strategy for selecting wrap points \\
       \texttt{--tabsize <N>}        & \texttt{-t}  & \texttt{2}     &
       Number of characters to use as tab size \\
       \texttt{--usetabs}            &       &         & Use tabs
@@ -280,7 +284,9 @@ The first example in each row is the default value.
       \texttt{wraplen}        & int      & \texttt{80}, \texttt{100}
       & Line length for wrapping \\
       \texttt{wrapmin}        & int      & \texttt{70}, \texttt{90}
-      & Target minimum length for line wrapping \\
+      & Target minimum length for greedy wrapping \\
+      \texttt{wrap-strategy}  & str      & \texttt{"balanced"},
+      \texttt{"greedy"} & Strategy for selecting wrap points \\
       \texttt{tabsize}        & int      & \texttt{2}, \texttt{4}
       & Number of characters to use as tab size \\
       \texttt{tabchar}        & str      & \texttt{"space"},
